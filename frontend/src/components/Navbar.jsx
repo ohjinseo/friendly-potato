@@ -1,5 +1,5 @@
 import React from 'react'
-import styled from 'styled-components'
+import styled from 'styled-components';
 import {Search} from '@material-ui/icons';
 import TakeoutDiningIcon from '@mui/icons-material/TakeoutDining';
 import LocalDiningIcon from '@mui/icons-material/LocalDining';
