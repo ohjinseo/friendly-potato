@@ -4,6 +4,7 @@ import {Search} from '@material-ui/icons';
 import TakeoutDiningIcon from '@mui/icons-material/TakeoutDining';
 import LocalDiningIcon from '@mui/icons-material/LocalDining';
 import TakeoutDiningOutlinedIcon from '@mui/icons-material/TakeoutDiningOutlined';
+import { Link } from 'react-router-dom';
 
 const Container = styled.div`
     
@@ -92,7 +93,7 @@ const Navbar = () => {
             <Left></Left>
             <Center>
                 <TakeoutDiningOutlinedIcon style={{color:"rgb(0, 121, 121)", marginRight:"5px", fontSize:30}}/>
-                <CenterTitle>RECIPE</CenterTitle>
+                <Link style={{ textDecoration: 'none', color:'inherit'}} to="/"><CenterTitle>RECIPE</CenterTitle></Link>
             </Center>
             <Right>
             <SearchContainer>

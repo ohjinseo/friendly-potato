@@ -92,7 +92,7 @@ const ItemText = styled.p`
 
 const SortContainer = styled.div`
     margin-top: 20px;
-    width:90%;
+    width:78%;
     display: flex;
     justify-content: flex-end;
 `;
@@ -126,7 +126,7 @@ const Home = () => {
                     </SearchContainer>
 
                     <FilterItems>
-                        <Item><ItemText>소고기</ItemText><CancelIcon style={{"cursor":"pointer"}}/></Item>
+                        
                         <Item><ItemText>시금치</ItemText><CancelIcon /></Item>
                         <Item><ItemText>간장</ItemText><CancelIcon /></Item>
                     </FilterItems>
