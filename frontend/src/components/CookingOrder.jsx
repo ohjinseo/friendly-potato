@@ -21,6 +21,7 @@ const Title = styled.h2`
 
 const Order = styled.div`
     display: flex;
+    flex-direction: column;
     margin-bottom: 40px;
     padding-bottom: 40px;
     border-bottom:1px solid #e3e3e3;

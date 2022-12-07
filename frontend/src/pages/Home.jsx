@@ -111,9 +111,9 @@ const Home = () => {
     <>
         <Navbar />
         <Container>
-            <ImageContainer>
+            {/* <ImageContainer>
                 <Image src="\img\food-image-for-del-mum-ggn-cropped-1-1645337791.jpg"/>
-            </ImageContainer>
+            </ImageContainer> */}
             
             <Center>
                 <CenterTop>
@@ -151,7 +151,6 @@ const Home = () => {
 
                     </SortContainer>
                 </CenterBottom>
-
                 <SearchResult />
             </Center>
         </Container> 
