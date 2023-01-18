@@ -9,6 +9,7 @@ const Container = styled.div`
     border-radius: 10px;
     font-family: 'Gothic A1', sans-serif;
     position:relative;
+    box-shadow: rgba(0, 0, 0, 0.04) 0px 3px 5px;
 `;
 
 const Wrapper = styled.div`

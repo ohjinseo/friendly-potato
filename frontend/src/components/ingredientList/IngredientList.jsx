@@ -17,7 +17,7 @@ const Title = styled.div`
   display: flex;
   flex-basis: 100%;
   align-items: center;
-  color: gray;
+  color: black;
   margin-bottom: 10px;
   &::after{
     content:"";

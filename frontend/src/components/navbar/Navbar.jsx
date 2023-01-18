@@ -13,20 +13,24 @@ import LogoutIcon from '@mui/icons-material/Logout';
 const Container = styled.div`
     width: 120px;
     height:100vh;
+    
 `;
 
 const Wrapper = styled.div`
-    padding: 10px;
     display: flex;
     flex-direction: column;
     align-items: center;
+    padding: 10px;
+    position:fixed;
+    top:0;
+    margin-left: 6px;
 `;
 
 const Logo = styled.div`
     display: flex;
     flex-direction: column;
     align-items: center;
-    margin-top:20px;
+    margin-top:30px;
     margin-bottom:20px;
 `;
 

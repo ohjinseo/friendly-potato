@@ -21,14 +21,13 @@ const HomeContainer = styled.div`
 const Container = styled.div`
     background-color: #fafafa;
     width: calc(1153.6px - 100px);
-    height: 100vh;
     display: flex;
     flex-direction: column;
     align-items: center;
 `;
 
 const Wrapper = styled.div`
-  padding:20px;  
+    padding:20px;  
     width: 90%;
 `;
 
@@ -38,12 +37,12 @@ const TopBanner = styled.div`
     align-items: center;
     font-family: 'Gothic A1', sans-serif;
     margin-bottom: 40px;
+    margin-top: 30px;
 `;
 
 const Title = styled.h1`
     font-size: 30px;
-    
-    margin-top: 20px;
+
 `;
 
 const Thin = styled.span`
