@@ -1,4 +1,4 @@
-import Home from "./pages/Home";
+import MyRefrigerator from "./pages/MyRefrigerator";
 import reset from 'styled-reset'
 import { createGlobalStyle } from 'styled-components'
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
@@ -13,7 +13,7 @@ const App = () => {
       <GlobalStyle />
       <BrowserRouter>
         <Routes>
-          <Route path="/" element={<Home />} />
+          <Route path="/" element={<MyRefrigerator />} />
         </Routes>
       </BrowserRouter>
     </>

@@ -8,6 +8,7 @@ import LocalDiningIcon from '@mui/icons-material/LocalDining';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import DashboardCustomizeIcon from '@mui/icons-material/DashboardCustomize';
 import PersonIcon from '@mui/icons-material/Person';
+import LogoutIcon from '@mui/icons-material/Logout';
 
 const Container = styled.div`
     width: 120px;
@@ -58,8 +59,8 @@ const Menu = styled.li`
     };
 
     &:hover{
-        background-color:#fe2352;
-        color:white;
+        background-color:#fff8f9;
+        
     }
 `;
 
@@ -101,7 +102,7 @@ const Navbar = () => {
                         <MenuIcon>
                           <LocalDiningIcon style={{ "fontSize": 30 }} />
                         </MenuIcon>
-                      <MenuText>레시피</MenuText>
+                      <MenuText>추천 레시피</MenuText>
                   </Menu>
                   
                   <Menu isSelected={false}>
@@ -113,9 +114,9 @@ const Navbar = () => {
 
                   <Menu isSelected={false}>
                         <MenuIcon>
-                          <PersonIcon style={{ "fontSize": 30 }} />
+                          <LogoutIcon style={{ "fontSize": 30 }} />
                         </MenuIcon>
-                      <MenuText>마이페이지</MenuText>
+                      <MenuText>로그아웃</MenuText>
                   </Menu>
               </Menus>
         </Wrapper>
