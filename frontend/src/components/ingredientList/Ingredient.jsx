@@ -2,8 +2,8 @@ import React from 'react'
 import styled from 'styled-components'
 
 const Container = styled.div`
-    height:140px;
-    width: 112px;
+    height:120px;
+    width: 90px;
     margin:10px;
     background-color:white;
     border-radius: 10px;
@@ -30,21 +30,20 @@ const Top = styled.div`
 const Dday = styled.div`
     position: absolute;
     top:-5px;
-    left:-5px;
+    right:-5px;
     font-size: 12px;
     font-weight: 600;
     display: flex;
     align-items: center;
     justify-content: center;
     padding: 2px 6px;
-    border-radius:15px;
-    border:1px solid #b0b0b0;
-    background-color: #fafafa;
-    color: #5c5c5c;
+    border-radius:5px;
+    background-color: #727171;
+    color: white;
 `;
 
 const ImageContainer = styled.div`
-    background-color:#fdf3da;
+    //background-color:#fdf3da;
     padding: 10px;
     border-radius:50%;
 `;
@@ -64,11 +63,16 @@ const Bottom = styled.div`
     align-items: center;
 `;
 
+const BottomTop = styled.div`
+    display: flex;
+    align-items: center;
+`;
+
 const IngredientName = styled.p`
     font-weight: 600;
     font-size: 14px;
-    margin-bottom: 7px;
-
+    margin-right: 5px;
+    margin-bottom: 5px;
 `;
 
 const BottomCenter = styled.div`
@@ -76,8 +80,18 @@ const BottomCenter = styled.div`
 `;
 
 const Quantity = styled.div`
-    color: #b0b0b0;
-    font-size: 15px;
+    color:#c0c0c0;
+    font-size: 12px;
+    font-weight: 500;
+
+    border-radius:50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 20px;
+    height: 20px;
+    padding: 1px;
+
 `;
 
 const Badge = styled.div`
@@ -102,12 +116,10 @@ const Ingredient = ({ingredient}) => {
                   </ImageContainer>
               </Top>
               <Bottom>
-                  <IngredientName>{ingredient.title}</IngredientName>
-                  <BottomCenter>
+                <IngredientName>{ingredient.title}</IngredientName>
+                <Quantity>X{ingredient.quantity}</Quantity>
                       
-                      <Quantity>x{ingredient.quantity}</Quantity>
-                  {/* <Badge>냉동</Badge> */}
-                  </BottomCenter>
+
                   
               </Bottom>
           </Wrapper>

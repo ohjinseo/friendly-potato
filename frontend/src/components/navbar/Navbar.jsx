@@ -9,6 +9,7 @@ import FavoriteIcon from '@mui/icons-material/Favorite';
 import DashboardCustomizeIcon from '@mui/icons-material/DashboardCustomize';
 import PersonIcon from '@mui/icons-material/Person';
 import LogoutIcon from '@mui/icons-material/Logout';
+import { Link } from 'react-router-dom';
 
 const Container = styled.div`
     width: 120px;
@@ -63,7 +64,7 @@ const Menu = styled.li`
     };
 
     &:hover{
-        background-color:#fff8f9;
+        background-color:#fff3f4;
         
     }
 `;
@@ -75,32 +76,38 @@ const MenuIcon = styled.div`
 const MenuText = styled.p`
     font-family: 'Gothic A1', sans-serif;
     font-size: 12px;
-    font-weight: 500;
+    font-weight: 300;
     margin-top: 15px;
 `;
 
 const Navbar = () => {
   return (
       <Container>
-          <Wrapper>
+      <Wrapper>
+      <Link style={{ textDecoration: 'none', color:'inherit'}} to="/">
               <Logo>
                   <EggAltIcon style={{ "color": "#fe2352", "fontSize": 45 }} />
                    {/* <LogoText>친절한 감자</LogoText> */}
-              </Logo>
-              <Menus>
+          </Logo>
+          </Link>
+        <Menus>
+          <Link style={{ textDecoration: 'none', color: 'inherit' }} to="/">
                   <Menu isSelected={true}>
                         <MenuIcon>
                           <KitchenIcon style={{ "fontSize": 30 }} />
                         </MenuIcon>
                       <MenuText>나의 냉장고</MenuText>
                   </Menu>
-
+        </Link>
+          <Link style={{ textDecoration: 'none', color: 'inherit' }} to="/add/ingredient">
+            
                   <Menu isSelected={false}>
                         <MenuIcon>
                           <DashboardCustomizeIcon style={{ "fontSize": 30 }} />
                         </MenuIcon>
                       <MenuText>식재료 추가</MenuText>
                   </Menu>
+        </Link>
 
                   <Menu isSelected={false}>
                         <MenuIcon>

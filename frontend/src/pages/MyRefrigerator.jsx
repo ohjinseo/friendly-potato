@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import Navbar from '../components/navbar/Navbar'
 
 import {ingredientList} from "../ingredientDummy";
+import { Link } from 'react-router-dom';
 
 // icons
 import AppsIcon from '@mui/icons-material/Apps';
@@ -12,6 +13,7 @@ import AcUnitIcon from '@mui/icons-material/AcUnit';
 import DeviceThermostatIcon from '@mui/icons-material/DeviceThermostat';
 import SearchIcon from '@mui/icons-material/Search';
 import IngredientList from '../components/ingredientList/IngredientList';
+import AddIcon from '@mui/icons-material/Add';
 
 const HomeContainer = styled.div`
     display: flex;
@@ -29,6 +31,25 @@ const Container = styled.div`
 const Wrapper = styled.div`
     padding:20px;  
     width: 90%;
+    position:relative;
+`;
+
+const AddButton = styled.div`
+    position:fixed;
+    bottom:30px;
+    right:30px;
+    width: 60px;
+    height: 60px;
+    background-color:#fe2352;
+    color:white;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor:pointer;
+    &:hover{
+        background-color: #ff5277
+    }
 `;
 
 const TopBanner = styled.div`
@@ -178,6 +199,11 @@ const Home = () => {
                             <IngredientList key={index} ingredients={ingredients} />
                         ))}
                     </Center>
+                <Link style={{ textDecoration: 'none', color:'inherit'}} to="/add/ingredient">
+                    <AddButton>
+                        <AddIcon style={{"fontSize":28}} />
+                        </AddButton>
+                        </Link>
                 </Wrapper>
             </Container>
             
