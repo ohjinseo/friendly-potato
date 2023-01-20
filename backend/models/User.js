@@ -27,7 +27,12 @@ const UserSchema = new mongoose.Schema(
         message: (props) =>
           "8~16자 영문 대 소문자 / 숫자 / 특수문자를 사용하세요",
       },
-      }
+    },
+    
+    isAdmin: {
+      type: Boolean,
+      default: false,
+    }
         
   },
   {timestamps: true}
