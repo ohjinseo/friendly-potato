@@ -14,6 +14,7 @@ import DeviceThermostatIcon from '@mui/icons-material/DeviceThermostat';
 import SearchIcon from '@mui/icons-material/Search';
 import IngredientList from '../components/ingredientList/IngredientList';
 import AddIcon from '@mui/icons-material/Add';
+import Categories from '../components/categories/Categories';
 
 const HomeContainer = styled.div`
     display: flex;
@@ -195,9 +196,9 @@ const Home = () => {
                     </Top>
                     
                     <Center>
-                        {ingredientList.map((ingredients, index) => (
+                         {ingredientList.map((ingredients, index) => (
                             <IngredientList key={index} ingredients={ingredients} />
-                        ))}
+                        ))} 
                     </Center>
                 <Link style={{ textDecoration: 'none', color:'inherit'}} to="/add/ingredient">
                     <AddButton>

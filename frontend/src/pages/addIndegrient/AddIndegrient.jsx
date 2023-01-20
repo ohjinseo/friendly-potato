@@ -2,6 +2,7 @@ import React from 'react'
 import styled from 'styled-components';
 import Navbar from '../../components/navbar/Navbar';
 import SortBox from './SortBox';
+import SelectIngredientList from "../../components/selectIngredientList/SelectIngredientList"
 
 // icons
 import SearchIcon from '@mui/icons-material/Search';
@@ -99,9 +100,7 @@ const RightWrapperTopBanner = styled.div`
     margin-top: 30px;
 `;
 
-const AddMenus = styled.div`
-    margin-top:60px;
-`;
+
 
 const CenterTop = styled.div`
     margin-top: 30px;
@@ -112,6 +111,24 @@ const CenterTop = styled.div`
 
 const SelectTitle = styled.p`
     font-size: 22px;
+`;
+
+const AddMenus = styled.div`
+    margin-top:60px;
+`;
+
+const AddButton = styled.button`
+margin-top: 20px;
+    width: 100%;
+    padding: 15px;
+    border-radius:10px;
+    border:none;
+    background-color:#fe2352;
+    cursor:pointer;
+    // background-color: #32a179;
+    color:white;
+    font-size: 14px;
+    font-weight: 500;
 `;
 
 
@@ -140,8 +157,7 @@ const AddIndegrient = () => {
                           <SortBox />
                       </CenterTop>
 
-                      <Categories />
-                      <Categories />
+                      <SelectIngredientList />
                       
 
                   </LeftWrapper>
@@ -155,7 +171,9 @@ const AddIndegrient = () => {
                               <AddMenu />
                               <AddMenu />
                               <AddMenu />
-                        </AddMenus>
+                          </AddMenus>
+                          
+                          <AddButton>식재료 추가</AddButton>
                           
                           
                       </RightWrapper>
