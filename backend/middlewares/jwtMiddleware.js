@@ -22,6 +22,16 @@ const verifyToken = (req, res, next) => {
     }
 }
 
+const verifyTokenAndAuthorization = (req, res, next) => {
+    verifyToken(req, res, () => {
+        if (req.user.id === req.params.userId) {
+            next();
+        } else {
+            res.status(403).json("인증된 사용자가 아닙니다.");
+        }
+    })
+}
+
 const verifyTokenAndAdmin = (req, res, next) => {
     verifyToken(req, res, () => {
         if(req.user.isAdmin){
@@ -34,5 +44,6 @@ const verifyTokenAndAdmin = (req, res, next) => {
 
 module.exports = {
     verifyToken,
-    verifyTokenAndAdmin
+    verifyTokenAndAdmin,
+    verifyTokenAndAuthorization
 };

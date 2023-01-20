@@ -9,7 +9,7 @@ const AddIngredientListSchema = new mongoose.Schema(
         ingredients: [
             {
                 ingredientId: {
-                    type: Schema.Types.ObjectId,
+                    type: mongoose.Schema.Types.ObjectId,
                     ref: 'Ingredient',
                     required: true
                 },
