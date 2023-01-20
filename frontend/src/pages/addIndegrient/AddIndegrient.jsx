@@ -45,7 +45,7 @@ background-color:white;
 const RightWrapper = styled.div`
 position:fixed;
 top:20px;
-width: 20%;
+width: 23%;
 `;
 
 
@@ -115,6 +115,9 @@ const SelectTitle = styled.p`
 
 const AddMenus = styled.div`
     margin-top:60px;
+
+    height:65vh;
+    overflow-y: auto;
 `;
 
 const AddButton = styled.button`
@@ -171,6 +174,9 @@ const AddIndegrient = () => {
                               <AddMenu />
                               <AddMenu />
                               <AddMenu />
+                              <AddMenu />
+
+
                           </AddMenus>
                           
                           <AddButton>식재료 추가</AddButton>

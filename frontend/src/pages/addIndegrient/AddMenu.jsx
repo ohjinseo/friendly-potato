@@ -5,7 +5,7 @@ import RemoveCircleIcon from '@mui/icons-material/RemoveCircle';
 import RemoveCircleOutlineIcon from '@mui/icons-material/RemoveCircleOutline';
 
 const Container = styled.div`
-    width: 100%;
+    width: 95%;
     margin-bottom: 10px;
     border-bottom: 1px solid #f5f5f5;
     padding: 5px;
@@ -20,7 +20,7 @@ const Wrapper = styled.div`
 `;
 
 const Left = styled.div`
-    flex:1;
+
 `;
 
 
@@ -28,11 +28,13 @@ const ImageContainer = styled.div`
     display: flex;
     justify-content: center;
     align-items: center;
-    background-color:#f6f6f6;
-    //background-color: #FDF3DA;
+    //background-color:#dedede;
+    background-color: #FDF3DA;
     //border:1px solid lightgray;
-    padding: 10px;
+    padding: 5px;
     border-radius: 10px;
+    width: 30px;
+    height: 30px;
     
 `;
 
@@ -43,12 +45,13 @@ const Image = styled.img`
 `;
 
 const Right = styled.div`
-    flex:3;
+    width: 100%;
     display: flex;
+    padding-left: 15px;
 `;
 
 const TitleContainer = styled.div`
-    padding-left: 20px;
+    padding-left: 0px;
     flex:10;
 `;
 

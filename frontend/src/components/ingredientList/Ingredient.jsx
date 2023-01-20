@@ -31,31 +31,35 @@ const Dday = styled.div`
     position: absolute;
     top:-5px;
     right:-5px;
-    font-size: 12px;
+    font-size: 10px;
     font-weight: 600;
     display: flex;
     align-items: center;
     justify-content: center;
     padding: 2px 6px;
     border-radius:5px;
-    background-color: #727171;
-    color: white;
+    background-color: #f1f1f1;
+    color: #727171;
+    border:1px solid gray;
 `;
 
 const ImageContainer = styled.div`
     //background-color:#fdf3da;
     padding: 10px;
-    border-radius:50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius:10px;
+    //border: 1px solid lightgray;
 `;
 
 const Image = styled.img`
-    width: 45px;
-    height: 45px;
+    width: 40px;
+    height: 40px;
     object-fit: cover;
 `;
 
 const Bottom = styled.div`
-    
     height:50px;
     display: flex;
     flex-direction: column;
@@ -72,7 +76,6 @@ const IngredientName = styled.p`
     font-weight: 600;
     font-size: 14px;
     margin-right: 5px;
-    margin-bottom: 5px;
 `;
 
 const BottomCenter = styled.div`
