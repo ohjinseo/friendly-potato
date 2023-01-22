@@ -8,6 +8,8 @@ const dbConnect = require("./config/dbConnect");
 const authRoute = require('./routes/authRoute');
 const ingredientRoute = require("./routes/ingredientRoute");
 const addIngredientListRoute = require("./routes/addIngredientListRoute");
+const refrigeratorRoute = require("./routes/refrigeratorRoute");
+
 
 dbConnect();
 const app = express();
@@ -18,7 +20,8 @@ app.use(express.json());
 // routers
 app.use("/api/auth", authRoute);
 app.use("/api/ingredients", ingredientRoute);
-app.use("/api/add/ingredients", addIngredientListRoute);
+app.use("/api/addIngredients", addIngredientListRoute);
+app.use("/api/refrigerators", refrigeratorRoute);
 
 app.listen(5000, () => {
     console.log("server is running");

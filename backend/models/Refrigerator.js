@@ -9,12 +9,24 @@ const RefrigeratorSchema = new mongoose.Schema(
         ingredients: [
             {
                 ingredientId: {
-                    type: Schema.Types.ObjectId,
+                    type: mongoose.Schema.Types.ObjectId,
                     ref:'Ingredient'
                 },
                 quantity: {
                     type: Number,
                     default: 1,
+                },
+                storage: {
+                    type: String,
+                    required: true,
+                },
+                createdAt: {
+                    type: Date,
+                    default: Date.now
+                },
+                expirationAt: {
+                    type: Date,
+                    default: Date.now
                 }
             }
         ]
