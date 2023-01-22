@@ -1,9 +1,9 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import styled from 'styled-components'
 import StorageBox from "./StorageBox"
 import { Add, Remove } from '@material-ui/icons';
 import DatePicker from "./DatePicker";
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { addIngredientAddAction } from '../../redux/slices/addIngredientSlice';
 
 const Container = styled.div`
@@ -199,9 +199,24 @@ const AddModal = ({ingredient, open, close, header }) => {
   const handleSubmit = (e) => {
     e.preventDefault();
 
+    const data = {
+      ingredientId: ingredient._id,
+      quantity: count,
+      storage,
+      createdAt,
+      expirationAt:expiredAt
+    };
 
-    dispatch(addIngredientAddAction())
+    dispatch(addIngredientAddAction(data));
   }
+
+  const res = useSelector(state => state.addIngredientReducer);
+
+  useEffect(() => {
+    if (res?.addIngredientAdd) {
+      close();
+    }
+  }, [res?.addIngredientAdd])
     
 
   return (
@@ -251,7 +266,7 @@ const AddModal = ({ingredient, open, close, header }) => {
                           <Title>유통기한</Title>
               <DatePicker kind="유통기한" setExpiredAt={setExpiredAt} setCreatedAt={setCreatedAt} />
                       </StorageContainer>
-                  <AddButton>추가</AddButton>
+                  <AddButton onClick={(e) => handleSubmit(e)}>추가</AddButton>
                   </Center>
 
 

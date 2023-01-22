@@ -73,19 +73,19 @@ const Option = styled.div`
     align-items: center;
 `;
 
-const AddMenu = () => {
+const AddMenu = ({info}) => {
   return (
       <Container>
           <Wrapper>
               <Left>
                   <ImageContainer>
-                      <Image src="/img/categories/001-fruits.png"/>
+                      <Image src={info?.ingredientId.image} />
                   </ImageContainer>
               </Left>
               <Right>
                   <TitleContainer>
-                      <Title>바나나</Title>
-                        <Quantity>x2</Quantity>
+                      <Title>{info?.ingredientId.title}</Title>
+                      <Quantity>x{info?.quantity}</Quantity>
                   </TitleContainer>
                   
                   <Option>

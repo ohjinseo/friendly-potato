@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import styled from 'styled-components';
 import Navbar from '../../components/navbar/Navbar';
 import SortBox from './SortBox';
@@ -8,6 +8,8 @@ import SelectIngredientList from "../../components/selectIngredientList/SelectIn
 import SearchIcon from '@mui/icons-material/Search';
 import Categories from '../../components/categories/Categories';
 import AddMenu from './AddMenu';
+import { useDispatch, useSelector } from 'react-redux';
+import { getAddIngredientAction } from '../../redux/slices/addIngredientSlice';
 
 const AddIndegientContainer = styled.div`
     display: flex;
@@ -136,7 +138,21 @@ margin-top: 20px;
 
 
 
-const AddIndegrient = () => {
+const AddIngredient = () => {
+    const [addIngredients, setAddIngredients] = useState([]);
+
+    const dispatch = useDispatch();
+
+    useEffect(() => {
+        dispatch(getAddIngredientAction());
+    }, [])
+    
+    const res = useSelector((state) => state?.addIngredientReducer?.addIngredientList);
+
+    useEffect(() => {
+        res?.ingredients && setAddIngredients(res?.ingredients);
+    }, [res?.ingredients]);
+
   return (
         <AddIndegientContainer>
             <Navbar />
@@ -171,10 +187,10 @@ const AddIndegrient = () => {
                     </RightWrapperTopBanner>
                           
                           <AddMenus>
-                              <AddMenu />
-                              <AddMenu />
-                              <AddMenu />
-                              <AddMenu />
+                              {addIngredients?.map((i, index) => (
+                                  
+                                  <AddMenu key={index} info={i} />
+                              ))}
 
 
                           </AddMenus>
@@ -192,4 +208,4 @@ const AddIndegrient = () => {
   )
 }
 
-export default AddIndegrient
+export default AddIngredient
