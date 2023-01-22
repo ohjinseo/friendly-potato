@@ -44,6 +44,7 @@ router.delete("/:userId", verifyTokenAndAdmin, async (req, res) => {
 // 카테고리 별로 가져오기
 router.get("/", async (req, res) => {
     const category = req.query.category;
+    console.log(category)
 
     try {
         const ingredients = await Ingredient.find({ category });
