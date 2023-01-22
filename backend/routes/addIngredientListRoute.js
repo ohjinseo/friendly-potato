@@ -90,7 +90,9 @@ router.patch("/delete/:userId", verifyTokenAndAuthorization, async (req, res) =>
 // 사용자 추가 목록 가져오기
 router.get("/:userId", verifyTokenAndAuthorization, async (req, res) => {
     try {
-        const addIngredientList = await AddIngredientList.findOne({ userId: req.params.userId });
+        const addIngredientList = await AddIngredientList.findOne({ userId: req.params.userId })
+            .populate('ingredients.ingredientId');
+        
         res.status(200).json(addIngredientList);
     } catch (err) {
         res.status(500).json(err);

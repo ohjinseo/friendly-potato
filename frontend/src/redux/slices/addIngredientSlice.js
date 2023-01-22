@@ -29,9 +29,9 @@ export const registerAddIngredientAction = createAsyncThunk(
     }
 );
 
-// 추가 목록 업데이트
-export const updateAddIngredientAction = createAsyncThunk(
-    "addIngredient/update",
+// 추가 목록 추가
+export const addIngredientAddAction = createAsyncThunk(
+    "addIngredient/add",
     async (payload, { rejectWithValue, getState, dispatch }) => {
         const accessToken = getState().userReducer.userAuth.accessToken;
         const userId = getState().userReducer.userAuth.userId;
@@ -42,12 +42,9 @@ export const updateAddIngredientAction = createAsyncThunk(
             }
         };
         try {
-            const { data } = await axios.put(
+            const { data } = await axios.patch(
                 `${baseURL}/addIngredients/${userId}`,
-                {
-                    "userId": payload.userId,
-                    "ingredients":payload.data
-                },
+                payload.data,
                 config
             );
                 
@@ -127,18 +124,18 @@ const addIngredientSlices = createSlice({
             state.error = action.payload.message;
         })
 
-        // 목록 업데이트
-        builder.addCase(updateAddIngredientAction.pending, (state, action) => {
+        // 목록 추가
+        builder.addCase(addIngredientAddAction.pending, (state, action) => {
             state.loading = true;
-            state.updateAddIngredient = false;
+            state.addIngredientAdd = false;
         })
-        builder.addCase(updateAddIngredientAction.fulfilled, (state, action) => {
+        builder.addCase(addIngredientAddAction.fulfilled, (state, action) => {
             state.loading = false;
-            state.updateAddIngredient = true;
+            state.addIngredientAdd = true;
         })
-        builder.addCase(updateAddIngredientAction.rejected, (state, action) => {
+        builder.addCase(addIngredientAddAction.rejected, (state, action) => {
             state.loading = true;
-            state.updateAddIngredient = false;
+            state.addIngredientAdd = false;
             state.error = action.payload.message;
         })
 

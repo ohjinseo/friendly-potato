@@ -4,7 +4,7 @@ import StorageBox from "./StorageBox"
 import { Add, Remove } from '@material-ui/icons';
 import DatePicker from "./DatePicker";
 import { useDispatch } from 'react-redux';
-import { updateAddIngredientAction } from '../../redux/slices/addIngredientSlice';
+import { addIngredientAddAction } from '../../redux/slices/addIngredientSlice';
 
 const Container = styled.div`
   display: none;
@@ -199,7 +199,8 @@ const AddModal = ({ingredient, open, close, header }) => {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    dispatch(updateAddIngredientAction())
+
+    dispatch(addIngredientAddAction())
   }
     
 

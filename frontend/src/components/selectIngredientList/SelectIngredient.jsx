@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import styled from 'styled-components';
-import AddModal from '../../pages/addIndegrient/AddModal';
+import AddModal from '../../pages/addIngredient/AddModal';
 
 const Container = styled.div`
     height:120px;
