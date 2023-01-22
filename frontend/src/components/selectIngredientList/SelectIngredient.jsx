@@ -55,7 +55,7 @@ const CategoryName = styled.p`
     font-weight: 600;
 `;
 
-const Category = ({ isSelected, category }) => {
+const SelectIngredient = ({ isSelected, ingredient }) => {
 
     const [modalOpen, setModalOpen] = useState(false);
 
@@ -69,16 +69,16 @@ const Category = ({ isSelected, category }) => {
 
     return (
       <>
-          <AddModal open={modalOpen} close={closeModal} header={category.categoryName} />
+          <AddModal ingredient={ingredient} open={modalOpen} close={closeModal} header={ingredient?.title} />
       <Container onClick={openModal} isSelected={isSelected}>
           <Wrapper>
               <Top>
                   <ImageContainer>
-                      <Image src={category.img} />
+                      <Image src={ingredient?.image} />
                 </ImageContainer>
               </Top>
               <Bottom>
-                <CategoryName>{category.categoryName}</CategoryName>
+                <CategoryName>{ingredient?.title}</CategoryName>
               </Bottom>
           </Wrapper>
     </Container>
@@ -86,4 +86,4 @@ const Category = ({ isSelected, category }) => {
   )
 }
 
-export default Category
+export default SelectIngredient

@@ -54,10 +54,9 @@ const CategoryName = styled.p`
     font-weight: 600;
 `;
 
-const Category = ({ isSelected, category }) => {
-    console.log(isSelected)
+const Category = ({selectedCategory, handleCategory, isSelected, category }) => {
   return (
-    <Container isSelected={isSelected}>
+    <Container onClick={() => handleCategory(category.categoryName)} isSelected={selectedCategory === category.categoryName}>
           <Wrapper>
               <Top>
                   <ImageContainer>

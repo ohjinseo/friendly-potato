@@ -4,11 +4,10 @@ import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
 
-export default function SelectVariants() {
-  const [age, setAge] = React.useState('');
+export default function SelectVariants({setStorage, storage}) {
 
   const handleChange = (event) => {
-    setAge(event.target.value);
+    setStorage(event.target.value);
   };
 
   return (
@@ -18,16 +17,13 @@ export default function SelectVariants() {
         <Select
           labelId="demo-simple-select-standard-label"
           id="demo-simple-select-standard"
-          value={age}
+          value={storage}
           onChange={handleChange}
                   label="Sort By"
         >
-          <MenuItem value="">
-            <em>None</em>
-          </MenuItem>
           <MenuItem value={10}>냉장실</MenuItem>
           <MenuItem value={20}>냉동실</MenuItem>
-          <MenuItem value={30}>Thirty</MenuItem>
+          <MenuItem value={30}>실온</MenuItem>
         </Select>
       </FormControl>
       
