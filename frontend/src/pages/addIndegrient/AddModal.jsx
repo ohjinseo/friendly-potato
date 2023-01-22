@@ -3,6 +3,8 @@ import styled from 'styled-components'
 import StorageBox from "./StorageBox"
 import { Add, Remove } from '@material-ui/icons';
 import DatePicker from "./DatePicker";
+import { useDispatch } from 'react-redux';
+import { updateAddIngredientAction } from '../../redux/slices/addIngredientSlice';
 
 const Container = styled.div`
   display: none;
@@ -178,9 +180,11 @@ const AddButton = styled.button`
 `;
 
 
-const AddModal = ({ open, close, header }) => {
-
-    const [count, setCount] = useState(1);
+const AddModal = ({ingredient, open, close, header }) => {
+  const [storage, setStorage] = useState("냉장실");
+  const [count, setCount] = useState(1);
+  const [createdAt, setCreatedAt] = useState(new Date());
+  const [expiredAt, setExpiredAt] = useState(new Date());
     
     const handleCount = (kind) => {
         if(kind === "add" && count < 10){
@@ -188,7 +192,15 @@ const AddModal = ({ open, close, header }) => {
         }else if(kind === "minus" && count > 1){
           setCount(count - 1);
         }
-    }
+  }
+
+  const dispatch = useDispatch();
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+
+    dispatch(updateAddIngredientAction())
+  }
     
 
   return (
@@ -205,17 +217,17 @@ const AddModal = ({ open, close, header }) => {
                   <Center>
                       <CenterTop>
                           <ImageContainer>
-                              <Image src="/img/categories/001-fruits.png"/>
+                <Image src={ingredient?.image} />
                           </ImageContainer>
                           <CenteTopTitleContainer>
-                              <CenterTopCategoryName>과일</CenterTopCategoryName>
-                              <CenterTopIngredientName>바나나</CenterTopIngredientName>
+                              <CenterTopCategoryName>{ingredient?.category}</CenterTopCategoryName>
+                              <CenterTopIngredientName>{ingredient?.title}</CenterTopIngredientName>
                           </CenteTopTitleContainer>
                       </CenterTop>
 
                       <StorageContainer>
                           <Title>보관장소</Title>
-                          <StorageBox />
+              <StorageBox storage={storage} setStorage={setStorage} />
                       </StorageContainer>
 
                       <StorageContainer>
@@ -231,12 +243,12 @@ const AddModal = ({ open, close, header }) => {
 
                       <StorageContainer>
                           <Title>등록일</Title>
-                          <DatePicker />
+              <DatePicker kind="등록일" setExpiredAt={setExpiredAt} setCreatedAt={setCreatedAt}/>
                       </StorageContainer>
 
                       <StorageContainer>
                           <Title>유통기한</Title>
-                          <DatePicker />
+              <DatePicker kind="유통기한" setExpiredAt={setExpiredAt} setCreatedAt={setCreatedAt} />
                       </StorageContainer>
                   <AddButton>추가</AddButton>
                   </Center>
