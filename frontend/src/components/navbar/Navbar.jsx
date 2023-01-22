@@ -1,5 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
+import {useDispatch} from 'react-redux';
 
 // Icons
 import EggAltIcon from '@mui/icons-material/EggAlt';
@@ -10,6 +11,7 @@ import DashboardCustomizeIcon from '@mui/icons-material/DashboardCustomize';
 import PersonIcon from '@mui/icons-material/Person';
 import LogoutIcon from '@mui/icons-material/Logout';
 import { Link } from 'react-router-dom';
+import { logout } from '../../redux/slices/userSlice';
 
 const Container = styled.div`
     width: 120px;
@@ -81,6 +83,14 @@ const MenuText = styled.p`
 `;
 
 const Navbar = () => {
+
+  const dispatch = useDispatch();
+
+  const handleLogout = (e) => {
+    e.preventDefault();
+    dispatch(logout());
+  }
+
   return (
       <Container>
       <Wrapper>
@@ -122,13 +132,14 @@ const Navbar = () => {
                         </MenuIcon>
                       <MenuText>즐겨찾기</MenuText>
                   </Menu>
-
-                  <Menu isSelected={false}>
+                  <Link style={{ textDecoration: 'none', color:'inherit'}} to="/login">
+                  <Menu onClick={handleLogout} isSelected={false}>
                         <MenuIcon>
                           <LogoutIcon style={{ "fontSize": 30 }} />
                         </MenuIcon>
                       <MenuText>로그아웃</MenuText>
-                  </Menu>
+            </Menu>
+            </Link>
               </Menus>
         </Wrapper>
     </Container>
