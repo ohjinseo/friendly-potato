@@ -3,6 +3,8 @@ import styled from 'styled-components';
 
 import RemoveCircleIcon from '@mui/icons-material/RemoveCircle';
 import RemoveCircleOutlineIcon from '@mui/icons-material/RemoveCircleOutline';
+import { useDispatch } from 'react-redux';
+import { addIngredientDeleteAction } from '../../redux/slices/addIngredientSlice';
 
 const Container = styled.div`
     width: 95%;
@@ -48,6 +50,7 @@ const Right = styled.div`
     width: 100%;
     display: flex;
     padding-left: 15px;
+    position: relative;
 `;
 
 const TitleContainer = styled.div`
@@ -64,7 +67,8 @@ const Title = styled.div`
 
 const Quantity = styled.div`
     font-size: 14px;
-    font-weight: 300;
+    font-weight: 200;
+    color:gray;
 `;
 
 const Option = styled.div`
@@ -73,7 +77,30 @@ const Option = styled.div`
     align-items: center;
 `;
 
-const AddMenu = ({info}) => {
+const DeleteButton = styled.button`
+outline: none;
+    cursor: pointer;
+  border: 0;
+
+  position: absolute;
+  top: 0px;
+  right: 5px;
+  width: 30px;
+  font-size: 25px;
+  font-weight: 200;
+  text-align: center;
+  color: #999;
+  background-color: transparent;
+`;
+
+const AddMenu = ({ info }) => {
+    const dispatch = useDispatch();
+    
+    const handleDelete = (e) => {
+        e.preventDefault();
+        dispatch(addIngredientDeleteAction({ id: info._id }));
+    }
+
   return (
       <Container>
           <Wrapper>
@@ -89,7 +116,9 @@ const AddMenu = ({info}) => {
                   </TitleContainer>
                   
                   <Option>
-                      <RemoveCircleOutlineIcon style={{color:"#fe2352", "fontSize":22}} />
+                      <DeleteButton onClick={handleDelete}>
+                        &times;  
+                      </DeleteButton>
                   </Option>
               </Right>
           </Wrapper>

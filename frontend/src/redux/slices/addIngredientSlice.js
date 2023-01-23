@@ -73,9 +73,11 @@ export const addIngredientDeleteAction = createAsyncThunk(
         try {
             const { data } = await axios.patch(
                 `${baseURL}/addIngredients/delete/${userId}`,
-                payload.id,
+                payload,
                 config
             );
+
+            dispatch(getAddIngredientAction());
                 
             return data;
         } catch (error) {
@@ -164,6 +166,21 @@ const addIngredientSlices = createSlice({
         builder.addCase(addIngredientAddAction.rejected, (state, action) => {
             state.loading = true;
             state.addIngredientAdd = false;
+            state.error = action.payload.message;
+        })
+
+        // 목록 삭제
+        builder.addCase(addIngredientDeleteAction.pending, (state, action) => {
+            state.loading = true;
+            state.addIngredientDelete = false;
+        })
+        builder.addCase(addIngredientDeleteAction.fulfilled, (state, action) => {
+            state.loading = false;
+            state.addIngredientDelete = true;
+        })
+        builder.addCase(addIngredientDeleteAction.rejected, (state, action) => {
+            state.loading = true;
+            state.addIngredientDelete = false;
             state.error = action.payload.message;
         })
 
