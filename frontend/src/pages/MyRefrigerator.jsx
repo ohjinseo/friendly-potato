@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import styled from 'styled-components';
 import Navbar from '../components/navbar/Navbar'
 
@@ -15,6 +15,9 @@ import SearchIcon from '@mui/icons-material/Search';
 import IngredientList from '../components/ingredientList/IngredientList';
 import AddIcon from '@mui/icons-material/Add';
 import Categories from '../components/categories/Categories';
+import { useDispatch, useSelector } from 'react-redux';
+import { useEffect } from 'react';
+import { getRefrigeratorAction } from '../redux/slices/refrigeratorSlice';
 
 const HomeContainer = styled.div`
     display: flex;
@@ -139,10 +142,18 @@ const Center = styled.div`
     margin-top: 50px;
 `;
 
-
-
-
 const Home = () => {
+    const [myRefrigerator, setMyRefrigerator] = useState([]);
+    const dispatch = useDispatch();
+
+    useEffect(() => {
+        dispatch(getRefrigeratorAction());
+    }, []);
+
+    const res = useSelector(state => state?.refrigeratorReducer?.refrigerator);
+
+    console.log(res);
+
     return (
         <HomeContainer>
             <Navbar />

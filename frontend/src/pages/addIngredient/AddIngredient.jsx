@@ -9,7 +9,8 @@ import SearchIcon from '@mui/icons-material/Search';
 import Categories from '../../components/categories/Categories';
 import AddMenu from './AddMenu';
 import { useDispatch, useSelector } from 'react-redux';
-import { getAddIngredientAction } from '../../redux/slices/addIngredientSlice';
+import { emptyAddIngredientAction, getAddIngredientAction } from '../../redux/slices/addIngredientSlice';
+import { refrigeratorAddAction } from '../../redux/slices/refrigeratorSlice';
 
 const AddIndegientContainer = styled.div`
     display: flex;
@@ -137,8 +138,6 @@ margin-top: 20px;
     font-weight: 500;
 `;
 
-
-
 const AddIngredient = () => {
     const [addIngredients, setAddIngredients] = useState([]);
 
@@ -153,6 +152,28 @@ const AddIngredient = () => {
     useEffect(() => {
         res?.ingredients && setAddIngredients(res?.ingredients);
     }, [res?.ingredients]);
+
+    
+    const addHandle = (e) => {
+        e.preventDefault();
+        
+        dispatch(emptyAddIngredientAction());
+
+        const ingredients = addIngredients?.reduce((acc, curr) => {
+            const { ingredientId: { _id } } = curr;
+            let cur = {};
+            cur.ingredientId = _id;
+            cur.quantity = curr.quantity;
+            cur.storage = curr.storage;
+            cur.createdAt = curr.createdAt;
+            cur.expirationAt = curr.expirationAt;
+            acc.push(cur);
+            return acc;
+        }, []);
+        
+        dispatch(refrigeratorAddAction({ingredients}));
+        dispatch(getAddIngredientAction());
+    }
 
   return (
         <AddIndegientContainer>
@@ -196,9 +217,10 @@ const AddIngredient = () => {
 
                           </AddMenus>
                           
-                          <AddButton>{`식재료 ${addIngredients?.length}개 냉장고에 추가`}</AddButton>
-                          
-                          
+                          <AddButton onClick={addHandle}>
+                              {`식재료 ${addIngredients?.length}개 냉장고에 추가`}
+                          </AddButton>
+
                       </RightWrapper>
                       </RightContainer>
               </ContainerWrapper>

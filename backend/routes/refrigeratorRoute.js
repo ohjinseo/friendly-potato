@@ -40,6 +40,7 @@ router.patch("/add/:userId", verifyTokenAndAuthorization, async (req, res) => {
 
         res.status(200).json(updatedRefrigerator);
     } catch (err) {
+        console.log(err);
         res.status(500).json(err);
     }
 });
@@ -72,24 +73,8 @@ router.patch("/delete/:userId", verifyTokenAndAuthorization, async (req, res) =>
 router.get("/:userId", verifyTokenAndAuthorization, async (req, res) => {
     try {
     
-        const refrigerator = await Refrigerator.aggregate([
-            {
-                $match: { "userId": req.params.userId }
-            },
-            {
-                $lookup: {
-                    from: "ingredients",
-                    localField: "ingredients.ingredientId",
-                    foreignField: "_id",
-                    as:"refrigeratorIngredients"
-                }
-            },
-            {
-                $group: {
-                    _id: "$refrigeratorIngredients.category"
-                }
-            }
-        ]);
+        const refrigerator = await Refrigerator.findOne({ userId: req.params.userId })
+        .populate('ingredients.ingredientId');
         res.status(200).json(refrigerator);
     } catch (err) {
         res.status(500).json(err);

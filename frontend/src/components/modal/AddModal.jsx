@@ -182,7 +182,7 @@ const AddButton = styled.button`
 
 
 const AddModal = ({ingredient, open, close, header }) => {
-  const [storage, setStorage] = useState("냉장실");
+  const [storage, setStorage] = useState("냉장");
   const [count, setCount] = useState(1);
   const [createdAt, setCreatedAt] = useState(new Date());
   const [expiredAt, setExpiredAt] = useState(new Date());

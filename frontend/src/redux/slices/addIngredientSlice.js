@@ -1,6 +1,7 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
 import { baseURL } from "../../utils/baseURL";
+import { refrigeratorAddAction } from "./refrigeratorSlice";
 
 // 추가 목록 생성
 export const registerAddIngredientAction = createAsyncThunk(
@@ -127,11 +128,12 @@ export const emptyAddIngredientAction = createAsyncThunk(
             }
         };
         try {
+            
             const { data } = await axios.patch(
                 `${baseURL}/addIngredients/${userId}`,
                 null,
                 config
-            );
+                );
                 
             return data;
         } catch (error) {
