@@ -86,6 +86,34 @@ export const addIngredientDeleteAction = createAsyncThunk(
     }
 );
 
+// 추가 목록 수정
+export const addIngredientUpdateAction = createAsyncThunk(
+    "addIngredient/update",
+    async (payload, { rejectWithValue, getState, dispatch }) => {
+        const accessToken = getState().userReducer.userAuth.accessToken;
+        const userId = getState().userReducer.userAuth.userId;
+
+        const config = {
+            headers: {
+                token: `Bearer ${accessToken}`,
+            }
+        };
+        try {
+            const { data } = await axios.patch(
+                `${baseURL}/addIngredients/update/${userId}`,
+                payload,
+                config
+            );
+
+            dispatch(getAddIngredientAction());
+                
+            return data;
+        } catch (error) {
+            return rejectWithValue(error.response.data);
+        }
+    }
+);
+
 // 추가 목록 비우기
 export const emptyAddIngredientAction = createAsyncThunk(
     "addIngredient/empty",
@@ -181,6 +209,21 @@ const addIngredientSlices = createSlice({
         builder.addCase(addIngredientDeleteAction.rejected, (state, action) => {
             state.loading = true;
             state.addIngredientDelete = false;
+            state.error = action.payload.message;
+        })
+
+        // 목록 수정
+        builder.addCase(addIngredientUpdateAction.pending, (state, action) => {
+            state.loading = true;
+            state.addIngredientUpdate = false;
+        })
+        builder.addCase(addIngredientUpdateAction.fulfilled, (state, action) => {
+            state.loading = false;
+            state.addIngredientUpdate = true;
+        })
+        builder.addCase(addIngredientUpdateAction.rejected, (state, action) => {
+            state.loading = true;
+            state.addIngredientUpdate = false;
             state.error = action.payload.message;
         })
 

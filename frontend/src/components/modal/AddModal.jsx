@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react'
 import styled from 'styled-components'
-import StorageBox from "./StorageBox"
+import StorageBox from "../../pages/addIngredient/StorageBox"
 import { Add, Remove } from '@material-ui/icons';
-import DatePicker from "./DatePicker";
+import DatePicker from "../../pages/addIngredient/DatePicker";
 import { useDispatch, useSelector } from 'react-redux';
 import { addIngredientAddAction } from '../../redux/slices/addIngredientSlice';
 
@@ -177,6 +177,7 @@ const AddButton = styled.button`
     background-color:#fe2352;
     font-size: 16px;
     font-weight: 700;
+    cursor: pointer;
 `;
 
 

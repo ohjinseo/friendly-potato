@@ -27,16 +27,12 @@ const Categories = () => {
         dispatch(getIngredientAction({category:selectedCategory}));
     }, [selectedCategory]);
 
-    
-
-    
-    
 
   return (
       <Container >
           <Wrapper>
               {categories.map((category, index) => (
-                  <Category handleCategory={handleCategory} category={category} isSelected={false} /> 
+                  <Category selectedCategory={selectedCategory} handleCategory={handleCategory} category={category} isSelected={false} /> 
               ))}
           </Wrapper>
     </Container>

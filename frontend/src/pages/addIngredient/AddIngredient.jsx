@@ -120,6 +120,7 @@ const AddMenus = styled.div`
 
     height:65vh;
     overflow-y: auto;
+    overflow-x: hidden;
 `;
 
 const AddButton = styled.button`

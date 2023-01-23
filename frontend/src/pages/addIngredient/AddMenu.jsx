@@ -1,18 +1,24 @@
-import React from 'react'
+import React, { useState } from 'react'
 import styled from 'styled-components';
 
 import RemoveCircleIcon from '@mui/icons-material/RemoveCircle';
 import RemoveCircleOutlineIcon from '@mui/icons-material/RemoveCircleOutline';
 import { useDispatch } from 'react-redux';
 import { addIngredientDeleteAction } from '../../redux/slices/addIngredientSlice';
+import AddModal from '../../components/modal/AddModal';
+import UpdateModal from '../../components/modal/UpdateModal';
 
 const Container = styled.div`
     width: 95%;
-    margin-bottom: 10px;
     border-bottom: 1px solid #f5f5f5;
-    padding: 5px;
+    padding: 10px;
     padding-bottom: 10px;
+    border-radius: 10px;
     // color: #ebebeb;
+    cursor:pointer;
+    &:hover{
+        background-color: #ffda6d;
+    }
 `;
 
 const Wrapper = styled.div`
@@ -101,8 +107,20 @@ const AddMenu = ({ info }) => {
         dispatch(addIngredientDeleteAction({ id: info._id }));
     }
 
-  return (
-      <Container>
+    const [modalOpen, setModalOpen] = useState(false);
+
+    const openModal = () => {
+        setModalOpen(true);
+    }
+
+    const closeModal = () => {
+        setModalOpen(false);
+    }
+
+    return (
+        <>
+            <UpdateModal info={info} open={modalOpen} close={closeModal} header={info?.ingredientId?.title} />
+            <Container onClick={openModal}>
           <Wrapper>
               <Left>
                   <ImageContainer>
@@ -122,7 +140,8 @@ const AddMenu = ({ info }) => {
                   </Option>
               </Right>
           </Wrapper>
-    </Container>
+            </Container>
+            </>
   )
 }
 
