@@ -2,6 +2,7 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
 import { baseURL } from "../../utils/baseURL";
 import { registerAddIngredientAction } from "./addIngredientSlice";
+import { registerRefrigeratorAction } from "./refrigeratorSlice";
 
 // 회원가입 비동기 액션
 export const registerUserAction = createAsyncThunk(
@@ -10,6 +11,7 @@ export const registerUserAction = createAsyncThunk(
         try {
             const { data } = await axios.post(`${baseURL}/auth/register`, payload);
             dispatch(registerAddIngredientAction(data));
+            dispatch(registerRefrigeratorAction(data));
             return data;
         } catch (error) {
             return rejectWithValue(error?.response?.data);
