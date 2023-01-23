@@ -196,7 +196,7 @@ const AddIngredient = () => {
 
                           </AddMenus>
                           
-                          <AddButton>식재료 추가</AddButton>
+                          <AddButton>{`식재료 ${addIngredients?.length}개 냉장고에 추가`}</AddButton>
                           
                           
                       </RightWrapper>

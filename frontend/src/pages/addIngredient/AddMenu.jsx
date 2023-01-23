@@ -6,6 +6,7 @@ import RemoveCircleOutlineIcon from '@mui/icons-material/RemoveCircleOutline';
 import { useDispatch } from 'react-redux';
 import { addIngredientDeleteAction } from '../../redux/slices/addIngredientSlice';
 import AddModal from '../../components/modal/AddModal';
+import ModeEditIcon from '@mui/icons-material/ModeEdit';
 import UpdateModal from '../../components/modal/UpdateModal';
 
 const Container = styled.div`
@@ -15,7 +16,6 @@ const Container = styled.div`
     padding-bottom: 10px;
     border-radius: 10px;
     // color: #ebebeb;
-    cursor:pointer;
     &:hover{
         background-color: #ffda6d;
     }
@@ -66,37 +66,73 @@ const TitleContainer = styled.div`
 
 
 const Title = styled.div`
+    font-weight: 700;
+    font-size: 14px;
+    margin-bottom: 10px;
+`;
+
+const Desc = styled.div`
+    display: flex;
+    align-items: center;
+`;
+
+const Storage = styled.div`
+    font-size: 12px;
+    
+
+    background-color: ${props => { 
+    console.log(props.storage);
+    if (props.storage === "냉동") return "#4571e5";
+    else if (props.storage === "냉장") return "#76AC8C";
+    else return "#c94189";
+    }};
+    
+    color:white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding:3px 7px;
+    border-radius:15px;
+    margin-right: 5px;
     font-weight: 500;
-    font-size: 16px;
-    margin-bottom: 5px;
 `;
 
 const Quantity = styled.div`
     font-size: 14px;
-    font-weight: 200;
-    color:gray;
+    font-weight: 500;
+    margin-right: 15px;
 `;
 
 const Option = styled.div`
     flex:1;
     display: flex;
     align-items: center;
+    
 `;
 
 const DeleteButton = styled.button`
-outline: none;
     cursor: pointer;
-  border: 0;
+    width: 25px;
+    height: 25px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 
-  position: absolute;
-  top: 0px;
-  right: 5px;
-  width: 30px;
   font-size: 25px;
   font-weight: 200;
   text-align: center;
   color: #999;
-  background-color: transparent;
+`;
+
+const EditButton = styled.button`
+    cursor:pointer;
+    width: 25px;
+    height: 25px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color:#b7b7b7;
+    margin-right: 5px;
 `;
 
 const AddMenu = ({ info }) => {
@@ -104,7 +140,9 @@ const AddMenu = ({ info }) => {
     
     const handleDelete = (e) => {
         e.preventDefault();
-        dispatch(addIngredientDeleteAction({ id: info._id }));
+        if (window.confirm(`${info?.ingredientId.title}(x${info?.quantity}) 을 정말 삭제하시겠습니까?`)) {
+            dispatch(addIngredientDeleteAction({ id: info._id }));
+        }
     }
 
     const [modalOpen, setModalOpen] = useState(false);
@@ -120,7 +158,7 @@ const AddMenu = ({ info }) => {
     return (
         <>
             <UpdateModal info={info} open={modalOpen} close={closeModal} header={info?.ingredientId?.title} />
-            <Container onClick={openModal}>
+            <Container >
           <Wrapper>
               <Left>
                   <ImageContainer>
@@ -129,11 +167,17 @@ const AddMenu = ({ info }) => {
               </Left>
               <Right>
                   <TitleContainer>
-                      <Title>{info?.ingredientId.title}</Title>
-                      <Quantity>x{info?.quantity}</Quantity>
+                            <Title>{info?.ingredientId.title}</Title>
+                            <Desc>
+                                <Storage storage={info?.storage}>{info?.storage}</Storage>
+                            </Desc>
                   </TitleContainer>
                   
-                  <Option>
+                        <Option>
+                                <Quantity>x{info?.quantity}</Quantity>
+                            <EditButton onClick={openModal}>
+                                <ModeEditIcon style={{ "fontSize": 20 }} />
+                                </EditButton>
                       <DeleteButton onClick={handleDelete}>
                         &times;  
                       </DeleteButton>

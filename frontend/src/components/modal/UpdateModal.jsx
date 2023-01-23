@@ -195,8 +195,6 @@ const UpdateModal = ({info, open, close, header }) => {
         }
     }
     
-    console.log(info);
-
   const dispatch = useDispatch();
 
     const res = useSelector(state => state.addIngredientReducer);

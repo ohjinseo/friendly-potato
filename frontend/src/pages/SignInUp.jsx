@@ -100,17 +100,10 @@ const Login = () => {
         setValue(newValue);
     }
 
-    const handleSignUpSubmit = (e) => {
-        e.preventDefault();
-
-        if (isMatchPassword(password, checkPassword)) {
-            dispatch(registerUserAction({ email, password }));
-        }
-    }
-
+    
     const handleSignInSubmit = (e) => {
         e.preventDefault();
-
+        
         dispatch(loginUserAction({ email, password }));
     }
 
@@ -128,22 +121,29 @@ const Login = () => {
     
     const res = useSelector(state => state.userReducer);
     const { loading, isRegister, isLogin, userAuth } = res;
-
+    
     useEffect(() => {
         if (userAuth && isLogin) {
             navigate("/");
         }
     }, [isLogin]);
 
-    useEffect(() => {
-        if (isRegister) {
-            window.confirm("회원가입이 완료되었습니다.\n다시 로그인을 진행해주세요")
-            setValue(0);
-            setEmail("");
-            setPassword("");
-            setCheckPassword("");
+
+    const handleSignUpSubmit = (e) => {
+        e.preventDefault();
+
+        if (isMatchPassword(password, checkPassword)) {
+            dispatch(registerUserAction({ email, password }));
+
+            if (isRegister) {
+                window.confirm("회원가입이 완료되었습니다.\n다시 로그인을 진행해주세요")
+                setValue(0);
+                setEmail("");
+                setPassword("");
+                setCheckPassword("");
+            }
         }
-    }, [isRegister]);
+    }
 
 
 

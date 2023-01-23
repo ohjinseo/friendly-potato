@@ -21,8 +21,8 @@ export default function SelectVariants({setStorage, storage}) {
           onChange={handleChange}
                   label="Sort By"
         >
-          <MenuItem value={`냉장실`}>냉장실</MenuItem>
-          <MenuItem value={`냉동실`}>냉동실</MenuItem>
+          <MenuItem value={`냉장`}>냉장</MenuItem>
+          <MenuItem value={`냉동`}>냉동</MenuItem>
           <MenuItem value={`실온`}>실온</MenuItem>
         </Select>
       </FormControl>

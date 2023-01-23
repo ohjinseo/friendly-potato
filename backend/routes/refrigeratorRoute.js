@@ -21,13 +21,15 @@ router.post("/", verifyToken, async (req, res) => {
     }
 });
 
-// 냉장고 업데이트
-router.put("/:userId", verifyTokenAndAuthorization, async (req, res) => {
+// 냉장고 식재료 추가
+router.patch("/add/:userId", verifyTokenAndAuthorization, async (req, res) => {
     try {
         const updatedRefrigerator = await Refrigerator.findOneAndUpdate(
-            {userId: req.params.userId},
+            { userId: req.params.userId },
             {
-                $set: req.body,
+                $push: {
+                    ingredients: { $each: req.body.ingredients }
+                },
             },
             { new: true }
         );
@@ -40,12 +42,54 @@ router.put("/:userId", verifyTokenAndAuthorization, async (req, res) => {
     } catch (err) {
         res.status(500).json(err);
     }
-})
+});
+
+// 냉장고 식재료 삭제 
+router.patch("/delete/:userId", verifyTokenAndAuthorization, async (req, res) => {
+    try {
+        const updatedRefrigerator = await Refrigerator.findOneAndUpdate(
+            {userId: req.params.userId},
+            {
+                $pull: { ingredients: { _id: req.body.id } }
+            },
+            { new: true }
+        );
+
+        if (updatedRefrigerator === null) {
+            return res.status(404);
+        }
+
+        res.status(200).json(updatedRefrigerator);
+    } catch (err) {
+        res.status(500).json(err);
+    }
+});
+
+
+
 
 // 사용자 냉장고 가져오기
 router.get("/:userId", verifyTokenAndAuthorization, async (req, res) => {
     try {
-        const refrigerator = await Refrigerator.findOne({ userId: req.params.userId });
+    
+        const refrigerator = await Refrigerator.aggregate([
+            {
+                $match: { "userId": req.params.userId }
+            },
+            {
+                $lookup: {
+                    from: "ingredients",
+                    localField: "ingredients.ingredientId",
+                    foreignField: "_id",
+                    as:"refrigeratorIngredients"
+                }
+            },
+            {
+                $group: {
+                    _id: "$refrigeratorIngredients.category"
+                }
+            }
+        ]);
         res.status(200).json(refrigerator);
     } catch (err) {
         res.status(500).json(err);
