@@ -27,7 +27,7 @@ const Top = styled.div`
     justify-content: center;
     height: 90px; 
     position: relative;
-    border-bottom: 1px solid #dadada;
+    border-bottom: 1px solid #e3e2e2;
     // color: #ededed;
 `;
 
@@ -36,14 +36,14 @@ const Dday = styled.div`
     top:-8px;
     right:-8px;
     font-size: 10px;
-    font-weight: 500;
+    font-weight: 700;
     display: flex;
     align-items: center;
     justify-content: center;
     padding: 2px 7px;
     border-radius:15px;
-    background-color: #f1f1f1;
-    color: #727171;
+    background-color: #fafafa;
+    color: gray;
     border:1px solid gray;
 `;
 
@@ -133,11 +133,22 @@ const Ingredient = ({ ingredient }) => {
         setModalOpen(false);
     }
 
+    const calculateDay = (expirationAt) => {
+        const dateA = new Date(Date.now());
+        const dateB = new Date(expirationAt);
+
+        const diffMSec = dateB.getTime() - dateA.getTime();
+        const diffDate = Math.round(diffMSec / (24 * 60 * 60 * 1000));
+
+        return diffDate < 0 ? 0 : diffDate;
+    }
+
+
     return (
         <>
         <RefrigeratorModal info={ingredient} open={modalOpen} close={closeModal} header={ingredient?.title} />
             <Container onClick={openModal}>
-          <Dday>D-3</Dday>
+                <Dday>D-{calculateDay(ingredient?.expirationAt)}</Dday>
           <Wrapper> 
               <Top>
                 <Badge storage={ingredient?.storage}>{ingredient?.storage}</Badge>

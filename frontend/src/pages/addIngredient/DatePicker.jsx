@@ -25,7 +25,7 @@ export default function MaterialUIPickers({kind, createdAt, expiredAt, setCreate
     if (kind === "등록일") {
       setValue(createdAt);
     } else {
-      setExpiredAt(expiredAt);
+      setValue(expiredAt);
     }
   }, [])
 

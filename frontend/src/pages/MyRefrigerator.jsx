@@ -203,7 +203,7 @@ const Home = () => {
 
             Object.entries(i)?.forEach(([key, value]) => {
                 let obj = {};
-                obj[key] = value.filter((k) => k?.ingredientId.title.includes(searchContent));
+                obj[key] = value.filter((k) => (k?.ingredientId.title.includes(searchContent) || k?.ingredientId.category.includes(searchContent)));
                 arr.push(obj);
             });
         })
