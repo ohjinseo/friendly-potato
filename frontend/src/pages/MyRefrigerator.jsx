@@ -144,6 +144,8 @@ const Center = styled.div`
 
 const Home = () => {
     const [myRefrigerator, setMyRefrigerator] = useState([]);
+    const [filterRefrigerator, setFilterRefrigerator] = useState([]);
+    const [selectedMenu, setSelectedMenu] = useState("전체");
     const dispatch = useDispatch();
 
     useEffect(() => {
@@ -165,6 +167,28 @@ const Home = () => {
         }
     }, [res]);
 
+    useEffect(() => {
+        
+        if (selectedMenu === "전체") {
+            setFilterRefrigerator(myRefrigerator);
+            const result = Object.entries(myRefrigerator)?.map(([key, value]) => {
+                return { [key] : value} ;
+            })
+            setFilterRefrigerator(result);
+        }
+        else if (selectedMenu !== "전체") {
+            const result = Object.entries(myRefrigerator)?.map(([key, value]) => {
+                return { [key] : value?.filter(subElement => subElement.storage === selectedMenu)} ;
+            })
+            setFilterRefrigerator(result);
+        }
+        
+        console.log(filterRefrigerator);
+    }, [selectedMenu, myRefrigerator])
+
+    const handleMenu = (menuName) => {
+        setSelectedMenu(menuName);
+    }
 
     const getKeyByValue = (obj, value) => {
         return Object.keys(obj).find(key => obj[key] === value);
@@ -185,16 +209,16 @@ const Home = () => {
                     </TopBanner>
                     <Top>
                         <TopMenus>
-                            <Menu isSelected={true}>
+                            <Menu onClick={() => handleMenu("전체")} selectedMenu={selectedMenu} isSelected={selectedMenu === "전체"}>
                                 <Icon>
-                                    <AppsIcon style={{"fontSize": 20}} />
+                                    <AppsIcon  style={{"fontSize": 20}} />
                                 </Icon>
                                 <MenuText>
                                     전체
                                 </MenuText>
                             </Menu>
 
-                            <Menu isSelected={false}>
+                            <Menu onClick={() => handleMenu("냉장")} selectedMenu={selectedMenu} isSelected={selectedMenu === "냉장"}>
                                 <Icon>
                                     <KitchenIcon style={{"fontSize": 20}} />
                                 </Icon>
@@ -203,7 +227,7 @@ const Home = () => {
                                 </MenuText>
                             </Menu>
 
-                            <Menu isSelected={false}>
+                            <Menu onClick={() => handleMenu("냉동")} selectedMenu={selectedMenu} isSelected={selectedMenu === "냉동"}>
                                 <Icon>
                                     <AcUnitIcon style={{"fontSize": 20}}/>
                                 </Icon>
@@ -212,7 +236,7 @@ const Home = () => {
                                 </MenuText>
                             </Menu>
 
-                            <Menu isSelected={false}>
+                            <Menu  onClick={() => handleMenu("실온")} selectedMenu={selectedMenu} isSelected={selectedMenu === "실온"}>
                                 <Icon>
                                     <DeviceThermostatIcon style={{"fontSize": 20}}/>
                                 </Icon>
@@ -225,8 +249,8 @@ const Home = () => {
                     
                     <Center>
                         {
-                            Object.keys(myRefrigerator)?.map(key => (
-                                <IngredientList key={key} category={key} ingredients={myRefrigerator[key]} />
+                            filterRefrigerator?.map((i, index) => (
+                                <IngredientList key={index} category={Object.keys(i)[0]} ingredients={Object.values(i)[0]} />
                             ))
                         }
                         

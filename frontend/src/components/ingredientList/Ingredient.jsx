@@ -1,5 +1,6 @@
-import React from 'react'
+import React, { useState } from 'react'
 import styled from 'styled-components'
+import UpdateModal from '../modal/UpdateModal';
 
 const Container = styled.div`
     height:120px;
@@ -10,6 +11,7 @@ const Container = styled.div`
     font-family: 'Gothic A1', sans-serif;
     position:relative;
     box-shadow: rgba(0, 0, 0, 0.04) 0px 3px 5px;
+    cursor:pointer;
 `;
 
 const Wrapper = styled.div`
@@ -25,19 +27,21 @@ const Top = styled.div`
     justify-content: center;
     height: 90px; 
     position: relative;
+    border-bottom: 1px solid #dadada;
+    // color: #ededed;
 `;
 
 const Dday = styled.div`
     position: absolute;
-    top:-5px;
-    right:-5px;
+    top:-8px;
+    right:-8px;
     font-size: 10px;
-    font-weight: 600;
+    font-weight: 500;
     display: flex;
     align-items: center;
     justify-content: center;
-    padding: 2px 6px;
-    border-radius:5px;
+    padding: 2px 7px;
+    border-radius:15px;
     background-color: #f1f1f1;
     color: #727171;
     border:1px solid gray;
@@ -49,6 +53,7 @@ const ImageContainer = styled.div`
     display: flex;
     align-items: center;
     justify-content: center;
+    margin-bottom: 15px;
     border-radius:10px;
     //border: 1px solid lightgray;
 `;
@@ -65,6 +70,7 @@ const Bottom = styled.div`
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    margin-top: 5px;
 `;
 
 const BottomTop = styled.div`
@@ -99,21 +105,42 @@ const Quantity = styled.div`
 
 const Badge = styled.div`
     font-size: 10px;
-    background-color: #4571e5;
+    background-color: ${props => { 
+    if (props.storage === "냉동") return "#4571e5";
+    else if (props.storage === "냉장") return "#76AC8C";
+    else return "#c94189";
+    }};
     color:white;
-    padding: 5px 7px;
-    border-radius: 5px;
+    padding: 3px 7px;
+    font-weight: 500;
+    border-radius: 15px;
     display: flex;
     align-items: center;
     justify-content: center;
+    position: absolute;
+    bottom:5px;
+    right:5px;
 `;
 
-const Ingredient = ({ingredient}) => {
-  return (
-      <Container>
+const Ingredient = ({ ingredient }) => {
+    const [modalOpen, setModalOpen] = useState(false);
+
+    const openModal = () => {
+        setModalOpen(true);
+    }
+
+    const closeModal = () => {
+        setModalOpen(false);
+    }
+
+    return (
+        <>
+        <UpdateModal info={ingredient} open={modalOpen} close={closeModal} header={ingredient?.title} />
+            <Container onClick={openModal}>
           <Dday>D-3</Dday>
           <Wrapper> 
               <Top>
+                <Badge storage={ingredient?.storage}>{ingredient?.storage}</Badge>
                   <ImageContainer>
                       <Image src={ingredient?.ingredientId.image} />
                   </ImageContainer>
@@ -121,12 +148,11 @@ const Ingredient = ({ingredient}) => {
               <Bottom>
                 <IngredientName>{ingredient?.ingredientId.title}</IngredientName>
                 <Quantity>X{ingredient?.quantity}</Quantity>
-                      
-
                   
               </Bottom>
           </Wrapper>
     </Container>
+    </>
   )
 }
 

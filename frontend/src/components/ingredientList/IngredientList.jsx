@@ -36,7 +36,6 @@ const Wrapper = styled.div`
 `;
 
 const IngredientList = ({ category, ingredients }) => {
-  console.log(category, ingredients);
   return (
     <Container>
       <Top>

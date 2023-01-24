@@ -81,7 +81,6 @@ const Storage = styled.div`
     
 
     background-color: ${props => { 
-    console.log(props.storage);
     if (props.storage === "냉동") return "#4571e5";
     else if (props.storage === "냉장") return "#76AC8C";
     else return "#c94189";
