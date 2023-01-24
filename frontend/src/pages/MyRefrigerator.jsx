@@ -145,7 +145,9 @@ const Center = styled.div`
 const Home = () => {
     const [myRefrigerator, setMyRefrigerator] = useState([]);
     const [filterRefrigerator, setFilterRefrigerator] = useState([]);
+    const [searchFilterRefrigerator, setSearchFilterRefrigerator] = useState([]);
     const [selectedMenu, setSelectedMenu] = useState("전체");
+    const [searchContent, setSearchContent] = useState("");
     const dispatch = useDispatch();
 
     useEffect(() => {
@@ -182,6 +184,8 @@ const Home = () => {
             })
             setFilterRefrigerator(result);
         }
+
+        setSearchContent("");
         
     }, [selectedMenu, myRefrigerator])
 
@@ -193,6 +197,22 @@ const Home = () => {
         return Object.keys(obj).find(key => obj[key] === value);
     }
 
+    useEffect(() => {
+        let arr = [];
+        filterRefrigerator?.forEach((i, index) => {
+
+            Object.entries(i)?.forEach(([key, value]) => {
+                let obj = {};
+                obj[key] = value.filter((k) => k?.ingredientId.title.includes(searchContent));
+                arr.push(obj);
+            });
+        })
+
+        setSearchFilterRefrigerator(arr);
+        
+        
+    }, [searchContent])
+
 
     return (
         <HomeContainer>
@@ -203,12 +223,12 @@ const Home = () => {
                         <Title><Thin>나의</Thin> <Bold>냉장고</Bold></Title>
                         <SearchContainer>
                             <SearchIcon style={{ color: "#b0b0b0", fontSize: 20,marginLeft:"5px", marginRight:"5px" }} />
-                            <Input placeholder="재료를 검색하세요 : ex) 시금치" />
+                            <Input value={searchContent} onChange={e => setSearchContent(e.target.value)} placeholder="재료를 검색하세요 : ex) 시금치" />
                         </SearchContainer>
                     </TopBanner>
                     <Top>
                         <TopMenus>
-                            <Menu onClick={() => handleMenu("전체")} selectedMenu={selectedMenu} isSelected={selectedMenu === "전체"}>
+                            <Menu onClick={() => { handleMenu("전체"); setSearchContent("") }} selectedMenu={selectedMenu} isSelected={selectedMenu === "전체"}>
                                 <Icon>
                                     <AppsIcon  style={{"fontSize": 20}} />
                                 </Icon>
@@ -217,7 +237,7 @@ const Home = () => {
                                 </MenuText>
                             </Menu>
 
-                            <Menu onClick={() => handleMenu("냉장")} selectedMenu={selectedMenu} isSelected={selectedMenu === "냉장"}>
+                            <Menu onClick={() => {handleMenu("냉장"); setSearchContent("")}} selectedMenu={selectedMenu} isSelected={selectedMenu === "냉장"}>
                                 <Icon>
                                     <KitchenIcon style={{"fontSize": 20}} />
                                 </Icon>
@@ -226,7 +246,7 @@ const Home = () => {
                                 </MenuText>
                             </Menu>
 
-                            <Menu onClick={() => handleMenu("냉동")} selectedMenu={selectedMenu} isSelected={selectedMenu === "냉동"}>
+                            <Menu onClick={() => {handleMenu("냉동"); setSearchContent("")}} selectedMenu={selectedMenu} isSelected={selectedMenu === "냉동"}>
                                 <Icon>
                                     <AcUnitIcon style={{"fontSize": 20}}/>
                                 </Icon>
@@ -235,7 +255,7 @@ const Home = () => {
                                 </MenuText>
                             </Menu>
 
-                            <Menu  onClick={() => handleMenu("실온")} selectedMenu={selectedMenu} isSelected={selectedMenu === "실온"}>
+                            <Menu  onClick={() => {handleMenu("실온"); setSearchContent("")}} selectedMenu={selectedMenu} isSelected={selectedMenu === "실온"}>
                                 <Icon>
                                     <DeviceThermostatIcon style={{"fontSize": 20}}/>
                                 </Icon>
@@ -248,10 +268,13 @@ const Home = () => {
                     
                     <Center>
                         {
-                            filterRefrigerator?.map((i, index) => (
+                            searchContent.length === 0 ?  filterRefrigerator?.map((i, index) => (
+                                <IngredientList key={index} category={Object.keys(i)[0]} ingredients={Object.values(i)[0]} />
+                                ))
+                            : searchFilterRefrigerator?.map((i, index) => (
                                 <IngredientList key={index} category={Object.keys(i)[0]} ingredients={Object.values(i)[0]} />
                             ))
-                        }
+                            }
                         
                     </Center>
                 <Link style={{ textDecoration: 'none', color:'inherit'}} to="/add/ingredient">
