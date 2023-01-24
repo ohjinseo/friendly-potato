@@ -1,6 +1,6 @@
-import React from 'react'
+import React, { useState } from 'react'
 import styled from 'styled-components'
-import {useDispatch} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 
 // Icons
 import EggAltIcon from '@mui/icons-material/EggAlt';
@@ -12,6 +12,7 @@ import PersonIcon from '@mui/icons-material/Person';
 import LogoutIcon from '@mui/icons-material/Logout';
 import { Link } from 'react-router-dom';
 import { logout } from '../../redux/slices/userSlice';
+import navbarSlice from '../../redux/slices/navbarSlice';
 
 const Container = styled.div`
     width: 120px;
@@ -66,9 +67,11 @@ const Menu = styled.li`
     };
 
     &:hover{
-        background-color:#fff3f4;
+      background-color:${(props) =>
+        props.isSelected ? '#ff4b72' : '#fff6f7'
+    };
         
-    }
+  } 
 `;
 
 const MenuIcon = styled.div`
@@ -91,6 +94,14 @@ const Navbar = () => {
     dispatch(logout());
   }
 
+  const handleMenu = (menuNumber) => {
+    dispatch(navbarSlice.actions.change(menuNumber));
+  }
+
+  const res = useSelector(state => state.navbarReducer);
+
+
+
   return (
       <Container>
       <Wrapper>
@@ -102,7 +113,7 @@ const Navbar = () => {
           </Link>
         <Menus>
           <Link style={{ textDecoration: 'none', color: 'inherit' }} to="/">
-                  <Menu isSelected={true}>
+                  <Menu onClick={() => handleMenu(0)} isSelected={res?.selectedMenu === 0}>
                         <MenuIcon>
                           <KitchenIcon style={{ "fontSize": 30 }} />
                         </MenuIcon>
@@ -111,7 +122,7 @@ const Navbar = () => {
         </Link>
           <Link style={{ textDecoration: 'none', color: 'inherit' }} to="/add/ingredient">
             
-                  <Menu isSelected={false}>
+                  <Menu onClick={() => handleMenu(1)} isSelected={res?.selectedMenu === 1}>
                         <MenuIcon>
                           <DashboardCustomizeIcon style={{ "fontSize": 30 }} />
                         </MenuIcon>
@@ -119,14 +130,14 @@ const Navbar = () => {
                   </Menu>
         </Link>
 
-                  <Menu isSelected={false}>
+                  <Menu onClick={() => handleMenu(2)} isSelected={res?.selectedMenu === 2}>
                         <MenuIcon>
                           <LocalDiningIcon style={{ "fontSize": 30 }} />
                         </MenuIcon>
                       <MenuText>추천 레시피</MenuText>
                   </Menu>
                   
-                  <Menu isSelected={false}>
+                  <Menu onClick={() => handleMenu(3)} isSelected={res?.selectedMenu === 3}>
                         <MenuIcon>
                           <FavoriteIcon style={{ "fontSize": 30 }} />
                         </MenuIcon>
