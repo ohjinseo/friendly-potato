@@ -5,6 +5,7 @@ import { Add, Remove } from '@material-ui/icons';
 import DatePicker from "../../pages/addIngredient/DatePicker";
 import { useDispatch, useSelector } from 'react-redux';
 import { addIngredientAddAction } from '../../redux/slices/addIngredientSlice';
+import { create } from '@mui/material/styles/createTransitions';
 
 const Container = styled.div`
   display: none;
@@ -199,6 +200,8 @@ const AddModal = ({ingredient, open, close, header }) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+
+    console.log(createdAt);
 
     const data = {
       ingredientId: ingredient._id,

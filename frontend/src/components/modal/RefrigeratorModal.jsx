@@ -242,6 +242,7 @@ const RefrigeratorModala = ({info, open, close, header}) => {
                 info
                     ?.createdAt
             );
+
             setExpiredAt(
                 info
                     ?.expirationAt
@@ -313,13 +314,15 @@ const RefrigeratorModala = ({info, open, close, header}) => {
 
                                 <StorageContainer>
                                     <Title>등록일s</Title>
-                                    <DatePicker kind="등록일" setExpiredAt={setExpiredAt} setCreatedAt={setCreatedAt}/>
+                                    <DatePicker kind="등록일" createdAt={createdAt} expiredAt={expiredAt} setExpiredAt={setExpiredAt} setCreatedAt={setCreatedAt}/>
                                 </StorageContainer>
 
                                 <StorageContainer>
                                     <Title>유통기한</Title>
                                     <DatePicker
                                         kind="유통기한"
+                                        createdAt={createdAt}
+                                        expiredAt={expiredAt} 
                                         setExpiredAt={setExpiredAt}
                                         setCreatedAt={setCreatedAt}/>
                                 </StorageContainer>

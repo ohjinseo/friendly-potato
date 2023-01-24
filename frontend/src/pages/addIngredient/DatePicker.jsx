@@ -8,12 +8,11 @@ import { DesktopDatePicker } from '@mui/x-date-pickers/DesktopDatePicker';
 import { MobileDatePicker } from '@mui/x-date-pickers/MobileDatePicker';
 
 
-export default function MaterialUIPickers({kind, setCreatedAt, setExpiredAt, title }) {
+export default function MaterialUIPickers({kind, createdAt, expiredAt, setCreatedAt, setExpiredAt, title }) {
   const [value, setValue] = React.useState(dayjs(Date.now()).format("YYYY-MM-DD"));
 
   const handleChange = (newValue) => {
     newValue = new Date(newValue);
-    console.log(newValue);
     setValue(newValue);
     if (kind === "등록일") {
       setCreatedAt(newValue);
@@ -21,6 +20,14 @@ export default function MaterialUIPickers({kind, setCreatedAt, setExpiredAt, tit
       setExpiredAt(newValue);
     }
   };
+
+  React.useEffect(() => {
+    if (kind === "등록일") {
+      setValue(createdAt);
+    } else {
+      setExpiredAt(expiredAt);
+    }
+  }, [])
 
   return (
     <LocalizationProvider  dateAdapter={AdapterDayjs}>

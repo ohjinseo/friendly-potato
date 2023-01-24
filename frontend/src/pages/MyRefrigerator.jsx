@@ -84,7 +84,7 @@ const SearchContainer = styled.div`
   padding: 5px;
   height:30px;
   background-color:white;
-  width: 250px;
+  width: 300px;
   border-radius: 10px;
   `;
 
@@ -223,7 +223,7 @@ const Home = () => {
                         <Title><Thin>나의</Thin> <Bold>냉장고</Bold></Title>
                         <SearchContainer>
                             <SearchIcon style={{ color: "#b0b0b0", fontSize: 20,marginLeft:"5px", marginRight:"5px" }} />
-                            <Input value={searchContent} onChange={e => setSearchContent(e.target.value)} placeholder="재료를 검색하세요 : ex) 시금치" />
+                            <Input value={searchContent} onChange={e => setSearchContent(e.target.value)} placeholder="보관 중인 식재료를 검색하세요 : ex) 시금치" />
                         </SearchContainer>
                     </TopBanner>
                     <Top>
