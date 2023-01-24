@@ -105,7 +105,6 @@ router.patch("/update/:userId", verifyTokenAndAuthorization, async (req, res) =>
             return res.status(404);
         }
 
-        // res.status(200).json(updatedIngredientList);
     } catch (err) {
         console.log(err);
         res.status(500).json(err);

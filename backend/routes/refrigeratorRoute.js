@@ -66,8 +66,28 @@ router.patch("/delete/:userId", verifyTokenAndAuthorization, async (req, res) =>
     }
 });
 
+// 목록 수정
+router.patch("/update/:userId", verifyTokenAndAuthorization, async (req, res) => {
+    try {
+        const updatedRefrigerator = Refrigerator.updateOne({ 'ingredients._id': req.body.id },
+            {
+                '$set': {
+            'ingredients.$.quantity': req.body.quantity,
+            'ingredients.$.storage': req.body.storage,
+            'ingredients.$.createdAt': req.body.createdAt,
+            'ingredients.$.createdAt': req.body.expirationAt
+                }
+            }, { new: true }).then(result => res.status(200).json(result));
 
+        if (updatedRefrigerator === null) {
+            return res.status(404);
+        }
 
+    } catch (err) {
+        console.log(err);
+        res.status(500).json(err);
+    }
+})
 
 // 사용자 냉장고 가져오기
 router.get("/:userId", verifyTokenAndAuthorization, async (req, res) => {

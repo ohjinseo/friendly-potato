@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import styled from 'styled-components'
-import UpdateModal from '../modal/UpdateModal';
+import RefrigeratorModal from '../modal/RefrigeratorModal';
 
 const Container = styled.div`
     height:120px;
@@ -135,7 +135,7 @@ const Ingredient = ({ ingredient }) => {
 
     return (
         <>
-        <UpdateModal info={ingredient} open={modalOpen} close={closeModal} header={ingredient?.title} />
+        <RefrigeratorModal info={ingredient} open={modalOpen} close={closeModal} header={ingredient?.title} />
             <Container onClick={openModal}>
           <Dday>D-3</Dday>
           <Wrapper> 

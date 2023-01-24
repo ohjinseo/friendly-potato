@@ -183,7 +183,6 @@ const Home = () => {
             setFilterRefrigerator(result);
         }
         
-        console.log(filterRefrigerator);
     }, [selectedMenu, myRefrigerator])
 
     const handleMenu = (menuName) => {

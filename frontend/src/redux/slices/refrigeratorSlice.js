@@ -57,6 +57,33 @@ export const refrigeratorAddAction = createAsyncThunk(
 );
 
 // 사용자 냉장고 재료 삭제
+export const refrigeratorDeleteAction = createAsyncThunk(
+    "refrigerator/delete",
+    async (payload, { rejectWithValue, getState, dispatch }) => {
+        const accessToken = getState().userReducer.userAuth.accessToken;
+        const userId = getState().userReducer.userAuth.userId;
+
+        const config = {
+            headers: {
+                token: `Bearer ${accessToken}`,
+            }
+        };
+        try {
+            const { data } = await axios.patch(
+                `${baseURL}/refrigerators/delete/${userId}`,
+                payload,
+                config
+            );
+
+            dispatch(getRefrigeratorAction());
+                
+            return data;
+        } catch (error) {
+            return rejectWithValue(error.response.data);
+        }
+    }
+);
+
 
 // 사용자 냉장고 가져오기
 export const getRefrigeratorAction = createAsyncThunk(
@@ -75,6 +102,34 @@ export const getRefrigeratorAction = createAsyncThunk(
                 `${baseURL}/refrigerators/${userId}`,
                 config
             );
+                
+            return data;
+        } catch (error) {
+            return rejectWithValue(error.response.data);
+        }
+    }
+);
+
+// 냉장고 수정
+export const refrigeratorUpdateAction = createAsyncThunk(
+    "refrigerator/update",
+    async (payload, { rejectWithValue, getState, dispatch }) => {
+        const accessToken = getState().userReducer.userAuth.accessToken;
+        const userId = getState().userReducer.userAuth.userId;
+
+        const config = {
+            headers: {
+                token: `Bearer ${accessToken}`,
+            }
+        };
+        try {
+            const { data } = await axios.patch(
+                `${baseURL}/refrigerators/update/${userId}`,
+                payload,
+                config
+            );
+
+            dispatch(getRefrigeratorAction());
                 
             return data;
         } catch (error) {
@@ -126,6 +181,35 @@ const refrigeratorSlices = createSlice({
         })
         builder.addCase(getRefrigeratorAction.rejected, (state, action) => {
             state.loading = true;
+            state.error = action.payload.message;
+        })
+
+        // 냉장고 재료 수정하기
+        builder.addCase(refrigeratorUpdateAction.pending, (state, action) => {
+            state.loading = true;
+            state.refrigeratorUpdate = false;
+        })
+        builder.addCase(refrigeratorUpdateAction.fulfilled, (state, action) => {
+            state.loading = false;
+            state.refrigeratorUpdate = true;
+        })
+        builder.addCase(refrigeratorUpdateAction.rejected, (state, action) => {
+            state.loading = true;
+            state.refrigeratorUpdate = false;
+        })
+
+        // 냉장고 재료 삭제하기
+        builder.addCase(refrigeratorDeleteAction.pending, (state, action) => {
+            state.loading = true;
+            state.refrigeratorDelete = false;
+        })
+        builder.addCase(refrigeratorDeleteAction.fulfilled, (state, action) => {
+            state.loading = false;
+            state.refrigeratorDelete = true;
+        })
+        builder.addCase(refrigeratorDeleteAction.rejected, (state, action) => {
+            state.loading = true;
+            state.refrigeratorDelete = false;
             state.error = action.payload.message;
         })
     }
