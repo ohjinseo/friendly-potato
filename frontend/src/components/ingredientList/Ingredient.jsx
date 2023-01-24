@@ -111,16 +111,16 @@ const Badge = styled.div`
 const Ingredient = ({ingredient}) => {
   return (
       <Container>
-          <Dday>D-{ingredient.dDay}</Dday>
+          <Dday>D-3</Dday>
           <Wrapper> 
               <Top>
                   <ImageContainer>
-                      <Image src={ingredient.img} />
+                      <Image src={ingredient?.ingredientId.image} />
                   </ImageContainer>
               </Top>
               <Bottom>
-                <IngredientName>{ingredient.title}</IngredientName>
-                <Quantity>X{ingredient.quantity}</Quantity>
+                <IngredientName>{ingredient?.ingredientId.title}</IngredientName>
+                <Quantity>X{ingredient?.quantity}</Quantity>
                       
 
                   

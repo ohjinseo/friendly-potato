@@ -150,9 +150,26 @@ const Home = () => {
         dispatch(getRefrigeratorAction());
     }, []);
 
-    const res = useSelector(state => state?.refrigeratorReducer?.refrigerator);
+    const res = useSelector(state => state?.refrigeratorReducer?.refrigerator?.ingredients);
 
-    console.log(res);
+    useEffect(() => {
+        if (res) {
+            const result = res.reduce((acc, curr) => {
+                const { ingredientId: { category } } = curr;
+                if (acc[category]) acc[category].push(curr);
+                else acc[category] = [curr];
+                return acc;
+            }, []);
+
+            setMyRefrigerator(result);
+        }
+    }, [res]);
+
+
+    const getKeyByValue = (obj, value) => {
+        return Object.keys(obj).find(key => obj[key] === value);
+    }
+
 
     return (
         <HomeContainer>
@@ -207,9 +224,12 @@ const Home = () => {
                     </Top>
                     
                     <Center>
-                         {ingredientList.map((ingredients, index) => (
-                            <IngredientList key={index} ingredients={ingredients} />
-                        ))} 
+                        {
+                            Object.keys(myRefrigerator)?.map(key => (
+                                <IngredientList key={key} category={key} ingredients={myRefrigerator[key]} />
+                            ))
+                        }
+                        
                     </Center>
                 <Link style={{ textDecoration: 'none', color:'inherit'}} to="/add/ingredient">
                     <AddButton>

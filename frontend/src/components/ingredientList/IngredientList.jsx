@@ -35,14 +35,15 @@ const Wrapper = styled.div`
   flex-wrap: wrap;
 `;
 
-const IngredientList = ({ ingredients }) => {
+const IngredientList = ({ category, ingredients }) => {
+  console.log(category, ingredients);
   return (
     <Container>
       <Top>
-        <Title>{ingredients.category} ({ingredients.ingredients.length})</Title>
+        <Title>{category} ({ingredients?.length})</Title>
         </Top>
           <Wrapper>
-              {ingredients.ingredients.map((ingredient, index) => (
+              {ingredients?.map((ingredient, index) => (
                             <Ingredient key={index} ingredient={ingredient} />
                         ))}
           </Wrapper>
