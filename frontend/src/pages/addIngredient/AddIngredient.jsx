@@ -173,6 +173,8 @@ const AddIngredient = () => {
         
         dispatch(refrigeratorAddAction({ingredients}));
         dispatch(getAddIngredientAction());
+
+        window.confirm(`${addIngredients.length}개의 식재료가 냉장고에 추가되었습니다.`);
     }
 
   return (

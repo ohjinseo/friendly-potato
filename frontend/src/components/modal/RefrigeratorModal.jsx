@@ -219,13 +219,9 @@ const RefrigeratorModala = ({info, open, close, header}) => {
 
         dispatch(refrigeratorUpdateAction(data));
 
-        if (
-            res
-                ?.refrigeratorUpdate
-        ) {
-            window.confirm("수정이 완료되었습니다.");
-            close();
-        }
+        window.confirm("수정이 완료되었습니다.");
+        close();
+        
     }
 
     useEffect(() => {
@@ -255,6 +251,7 @@ const RefrigeratorModala = ({info, open, close, header}) => {
 
         if (window.confirm(`${info?.ingredientId.title}(x${info?.quantity}) 을 정말 삭제하시겠습니까?`)) {
             dispatch(refrigeratorDeleteAction({ id: info._id }));
+            close();
         }
     }
 

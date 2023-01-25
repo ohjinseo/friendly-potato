@@ -201,8 +201,6 @@ const AddModal = ({ingredient, open, close, header }) => {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    console.log(createdAt);
-
     const data = {
       ingredientId: ingredient._id,
       quantity: count,

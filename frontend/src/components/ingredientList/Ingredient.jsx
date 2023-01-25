@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import styled from 'styled-components'
 import RefrigeratorModal from '../modal/RefrigeratorModal';
 
@@ -42,9 +42,19 @@ const Dday = styled.div`
     justify-content: center;
     padding: 2px 7px;
     border-radius:15px;
-    background-color: #fafafa;
-    color: gray;
-    border:1px solid gray;
+    border:${(props) =>
+        props.isExpired ? 'red' : '1px solid gray'
+    };
+
+    background-color:${(props) =>
+        props.isExpired ? '#d40000' : '#fafafa'
+    };
+
+    color:${(props) =>
+        props.isExpired ? 'white' : 'gray'
+    };
+
+    // color: #9f0000;
 `;
 
 const ImageContainer = styled.div`
@@ -124,6 +134,7 @@ const Badge = styled.div`
 
 const Ingredient = ({ ingredient }) => {
     const [modalOpen, setModalOpen] = useState(false);
+    const [isExpired, setIsExpired] = useState(false);
 
     const openModal = () => {
         setModalOpen(true);
@@ -140,15 +151,21 @@ const Ingredient = ({ ingredient }) => {
         const diffMSec = dateB.getTime() - dateA.getTime();
         const diffDate = Math.round(diffMSec / (24 * 60 * 60 * 1000));
 
-        return diffDate < 0 ? 0 : diffDate;
+        return diffDate < 0 ? `+${Math.abs(diffDate)}` : `-${Math.abs(diffDate)}`;
     }
+
+    useEffect(() => {
+        if (calculateDay(ingredient?.expirationAt)[0] === '+') {
+            setIsExpired(true);
+        }
+    }, [])
 
 
     return (
         <>
         <RefrigeratorModal info={ingredient} open={modalOpen} close={closeModal} header={ingredient?.title} />
             <Container onClick={openModal}>
-                <Dday>D-{calculateDay(ingredient?.expirationAt)}</Dday>
+                <Dday isExpired={isExpired}>D{calculateDay(ingredient?.expirationAt)}</Dday>
           <Wrapper> 
               <Top>
                 <Badge storage={ingredient?.storage}>{ingredient?.storage}</Badge>

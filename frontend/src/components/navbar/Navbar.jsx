@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import styled from 'styled-components'
 import {useDispatch, useSelector} from 'react-redux';
 
@@ -88,6 +88,7 @@ const MenuText = styled.p`
 const Navbar = () => {
 
   const dispatch = useDispatch();
+  const [selectedMenu, setSelectedMenu] = useState(0);
 
   const handleLogout = (e) => {
     e.preventDefault();
@@ -96,9 +97,16 @@ const Navbar = () => {
 
   const handleMenu = (menuNumber) => {
     dispatch(navbarSlice.actions.change(menuNumber));
+    setSelectedMenu(menuNumber);
   }
 
   const res = useSelector(state => state.navbarReducer);
+
+  useEffect(() => {
+    if (res) {
+      setSelectedMenu(res.selectedMenu);
+    }
+  }, [res])
 
 
 
@@ -106,14 +114,14 @@ const Navbar = () => {
       <Container>
       <Wrapper>
       <Link style={{ textDecoration: 'none', color:'inherit'}} to="/">
-              <Logo>
+              <Logo onClick={() => handleMenu(0)}>
                   <EggAltIcon style={{ "color": "#fe2352", "fontSize": 45 }} />
                    {/* <LogoText>친절한 감자</LogoText> */}
           </Logo>
           </Link>
         <Menus>
           <Link style={{ textDecoration: 'none', color: 'inherit' }} to="/">
-                  <Menu onClick={() => handleMenu(0)} isSelected={res?.selectedMenu === 0}>
+                  <Menu onClick={() => handleMenu(0)} isSelected={selectedMenu === 0}>
                         <MenuIcon>
                           <KitchenIcon style={{ "fontSize": 30 }} />
                         </MenuIcon>
@@ -122,7 +130,7 @@ const Navbar = () => {
         </Link>
           <Link style={{ textDecoration: 'none', color: 'inherit' }} to="/add/ingredient">
             
-                  <Menu onClick={() => handleMenu(1)} isSelected={res?.selectedMenu === 1}>
+                  <Menu onClick={() => handleMenu(1)} isSelected={selectedMenu === 1}>
                         <MenuIcon>
                           <DashboardCustomizeIcon style={{ "fontSize": 30 }} />
                         </MenuIcon>
@@ -130,14 +138,14 @@ const Navbar = () => {
                   </Menu>
         </Link>
 
-                  <Menu onClick={() => handleMenu(2)} isSelected={res?.selectedMenu === 2}>
+                  <Menu onClick={() => handleMenu(2)} isSelected={selectedMenu === 2}>
                         <MenuIcon>
                           <LocalDiningIcon style={{ "fontSize": 30 }} />
                         </MenuIcon>
                       <MenuText>추천 레시피</MenuText>
                   </Menu>
                   
-                  <Menu onClick={() => handleMenu(3)} isSelected={res?.selectedMenu === 3}>
+                  <Menu onClick={() => handleMenu(3)} isSelected={selectedMenu === 3}>
                         <MenuIcon>
                           <FavoriteIcon style={{ "fontSize": 30 }} />
                         </MenuIcon>
