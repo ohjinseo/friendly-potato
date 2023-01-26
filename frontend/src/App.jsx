@@ -6,6 +6,7 @@ import AddIngredient from "./pages/addIngredient/AddIngredient";
 import "./App.css"
 import SignInUp from "./pages/SignInUp";
 import { useSelector } from "react-redux";
+import RecipeList from "./pages/recipe/RecipeList";
 
 const GlobalStyle = createGlobalStyle`
   ${reset}
@@ -22,6 +23,7 @@ const App = () => {
           <Route path="/" element={userAuth ? <MyRefrigerator /> : <SignInUp />} />
           <Route path="/add/ingredient" element={userAuth ? <AddIngredient /> : <SignInUp />} />
           <Route path="/login" element={userAuth ? <Navigate to="/" /> : <SignInUp />} />
+          <Route path="/recipeList" element={userAuth ? <RecipeList /> : <SignInUp />} />
         </Routes>
       </BrowserRouter>
     </>

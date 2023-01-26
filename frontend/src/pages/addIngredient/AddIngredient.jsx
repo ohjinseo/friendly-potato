@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, {useEffect, useState} from 'react'
 import styled from 'styled-components';
 import Navbar from '../../components/navbar/Navbar';
 import SortBox from './SortBox';
@@ -8,17 +8,17 @@ import SelectIngredientList from "../../components/selectIngredientList/SelectIn
 import SearchIcon from '@mui/icons-material/Search';
 import Categories from '../../components/categories/Categories';
 import AddMenu from './AddMenu';
-import { useDispatch, useSelector } from 'react-redux';
-import { emptyAddIngredientAction, getAddIngredientAction } from '../../redux/slices/addIngredientSlice';
-import { refrigeratorAddAction } from '../../redux/slices/refrigeratorSlice';
+import {useDispatch, useSelector} from 'react-redux';
+import {emptyAddIngredientAction, getAddIngredientAction} from '../../redux/slices/addIngredientSlice';
+import {refrigeratorAddAction} from '../../redux/slices/refrigeratorSlice';
 
-const AddIndegientContainer = styled.div`
+const AddIndegientContainer = styled.div `
     display: flex;
     justify-content: center;
     font-family: 'Gothic A1', sans-serif;
 `;
 
-const Container = styled.div`
+const Container = styled.div `
     width: calc(1153.6px - 100px);
     display: flex;
     flex-direction: column;
@@ -26,12 +26,12 @@ const Container = styled.div`
     background-color: #fafafa;
     `;
 
-const ContainerWrapper = styled.div`
+const ContainerWrapper = styled.div `
     display: flex;
     width: 100%;
     `;
 
-const LeftWrapper = styled.div`
+const LeftWrapper = styled.div `
     padding:20px;  
     padding-left:40px;
     padding-right:40px;
@@ -39,20 +39,19 @@ const LeftWrapper = styled.div`
     
 `;
 
-const RightContainer = styled.div`
+const RightContainer = styled.div `
 padding: 20px;
 flex:2;
 background-color:white;
 `;
 
-const RightWrapper = styled.div`
+const RightWrapper = styled.div `
 position:fixed;
 top:20px;
 width: 23%;
 `;
 
-
-const TopBanner = styled.div`
+const TopBanner = styled.div `
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -61,20 +60,20 @@ const TopBanner = styled.div`
     margin-top: 30px;
     `;
 
-const Title = styled.h1`
+const Title = styled.h1 `
     font-size: 30px;
     
     `;
 
-const Thin = styled.span`
+const Thin = styled.span `
     font-weight: 200;
     `;
 
-const Bold = styled.span`
+const Bold = styled.span `
     font-weight: 500;
     `;
 
-const SearchContainer = styled.div`
+const SearchContainer = styled.div `
   display: flex;
   align-items: center;
   padding: 5px;
@@ -84,7 +83,7 @@ const SearchContainer = styled.div`
   border-radius: 10px;
   `;
 
-const Input = styled.input`
+const Input = styled.input `
   border: none;
   width: 100%;
   font-size: 13px;
@@ -93,9 +92,7 @@ const Input = styled.input`
     }
     `;
 
-
-
-const RightWrapperTopBanner = styled.div`
+const RightWrapperTopBanner = styled.div `
     display: flex;
     align-items: center;
     font-family: 'Gothic A1', sans-serif;
@@ -103,20 +100,18 @@ const RightWrapperTopBanner = styled.div`
     margin-top: 30px;
 `;
 
-
-
-const CenterTop = styled.div`
+const CenterTop = styled.div `
     margin-top: 30px;
     display: flex;
     align-items: center;
     justify-content: space-between;
 `;
 
-const SelectTitle = styled.p`
+const SelectTitle = styled.p `
     font-size: 22px;
 `;
 
-const AddMenus = styled.div`
+const AddMenus = styled.div `
     margin-top:60px;
 
     height:65vh;
@@ -124,7 +119,7 @@ const AddMenus = styled.div`
     overflow-x: hidden;
 `;
 
-const AddButton = styled.button`
+const AddButton = styled.button `
 margin-top: 20px;
     width: 100%;
     padding: 15px;
@@ -146,91 +141,118 @@ const AddIngredient = () => {
     useEffect(() => {
         dispatch(getAddIngredientAction());
     }, [])
-    
-    const res = useSelector((state) => state?.addIngredientReducer?.addIngredientList);
+
+    const res = useSelector(
+        (state) => state
+            ?.addIngredientReducer
+                ?.addIngredientList
+    );
 
     useEffect(() => {
-        res?.ingredients && setAddIngredients(res?.ingredients);
-    }, [res?.ingredients]);
+        res
+            ?.ingredients && setAddIngredients(
+                res
+                    ?.ingredients
+            );
+    }, [
+        res
+            ?.ingredients
+    ]);
 
-    
     const addHandle = (e) => {
         e.preventDefault();
-        
+
         dispatch(emptyAddIngredientAction());
 
-        const ingredients = addIngredients?.reduce((acc, curr) => {
-            const { ingredientId: { _id } } = curr;
-            let cur = {};
-            cur.ingredientId = _id;
-            cur.quantity = curr.quantity;
-            cur.storage = curr.storage;
-            cur.createdAt = curr.createdAt;
-            cur.expirationAt = curr.expirationAt;
-            acc.push(cur);
-            return acc;
-        }, []);
-        
+        const ingredients = addIngredients
+            ?.reduce((acc, curr) => {
+                const {ingredientId: {
+                        _id
+                    }} = curr;
+                let cur = {};
+                cur.ingredientId = _id;
+                cur.quantity = curr.quantity;
+                cur.storage = curr.storage;
+                cur.createdAt = curr.createdAt;
+                cur.expirationAt = curr.expirationAt;
+                acc.push(cur);
+                return acc;
+            }, []);
+
         dispatch(refrigeratorAddAction({ingredients}));
         dispatch(getAddIngredientAction());
 
         window.confirm(`${addIngredients.length}개의 식재료가 냉장고에 추가되었습니다.`);
     }
 
-  return (
+    return (
         <AddIndegientContainer>
-            <Navbar />
-          <Container>
-              <ContainerWrapper>
-                <LeftWrapper>
-                    <TopBanner>
-                        <Title><Bold>식재료</Bold> <Thin>카테고리</Thin></Title>
-                        <SearchContainer>
-                            <SearchIcon style={{ color: "#b0b0b0", fontSize: 20,marginLeft:"5px", marginRight:"5px" }} />
-                            <Input placeholder="재료를 검색하세요 : ex) 시금치" />
-                        </SearchContainer>
-                      </TopBanner>
+            <Navbar/>
+            <Container>
+                <ContainerWrapper>
+                    <LeftWrapper>
+                        <TopBanner>
+                            <Title>
+                                <Bold>식재료</Bold>
+                                <Thin>카테고리</Thin>
+                            </Title>
+                            <SearchContainer>
+                                <SearchIcon
+                                    style={{
+                                        color: "#b0b0b0",
+                                        fontSize: 20,
+                                        marginLeft: "5px",
+                                        marginRight: "5px"
+                                    }}/>
+                                <Input placeholder="재료를 검색하세요 : ex) 시금치"/>
+                            </SearchContainer>
+                        </TopBanner>
 
-                      <Categories />
-                      
-                      <CenterTop>
-                          <SelectTitle>
-                              <Bold>식재료</Bold> <Thin>선택</Thin>
-                          </SelectTitle>
-                          <SortBox />
-                      </CenterTop>
+                        <Categories/>
 
-                      <SelectIngredientList />
-                      
+                        <CenterTop>
+                            <SelectTitle>
+                                <Bold>식재료</Bold>
+                                <Thin>선택</Thin>
+                            </SelectTitle>
+                            <SortBox/>
+                        </CenterTop>
 
-                  </LeftWrapper>
-                  <RightContainer>
-              <RightWrapper>
-                      <RightWrapperTopBanner>
-                        <Title><Bold>추가</Bold> <Thin>목록</Thin></Title>
-                    </RightWrapperTopBanner>
-                          
-                          <AddMenus>
-                              {addIngredients?.map((i, index) => (
-                                  
-                                  <AddMenu key={index} info={i} />
-                              ))}
+                        <SelectIngredientList/>
 
+                    </LeftWrapper>
+                    <RightContainer>
+                        <RightWrapper>
+                            <RightWrapperTopBanner>
+                                <Title>
+                                    <Bold>추가</Bold>
+                                    <Thin>목록</Thin>
+                                </Title>
+                            </RightWrapperTopBanner>
 
-                          </AddMenus>
-                          
-                          <AddButton onClick={addHandle}>
-                              {`식재료 ${addIngredients?.length}개 냉장고에 추가`}
-                          </AddButton>
+                            <AddMenus>
+                                {
+                                    addIngredients
+                                        ?.map((i, index) => (<AddMenu key={index} info={i}/>))
+                                }
 
-                      </RightWrapper>
-                      </RightContainer>
-              </ContainerWrapper>
-              
+                            </AddMenus>
+
+                            <AddButton onClick={addHandle}>
+                                {
+                                    `식재료 ${addIngredients
+                                        ?.length}개 냉장고에 추가`
+                                }
+                            </AddButton>
+
+                        </RightWrapper>
+                    </RightContainer>
+                </ContainerWrapper>
+
             </Container>
-            
-            </AddIndegientContainer>
-  )
+
+        </AddIndegientContainer>
+    )
 }
 
 export default AddIngredient

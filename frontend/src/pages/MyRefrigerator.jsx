@@ -211,7 +211,7 @@ const Home = () => {
         setSearchFilterRefrigerator(arr);
         
         
-    }, [searchContent])
+    }, [searchContent]);
 
 
     return (

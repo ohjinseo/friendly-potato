@@ -136,14 +136,16 @@ const Navbar = () => {
                         </MenuIcon>
                       <MenuText>식재료 추가</MenuText>
                   </Menu>
-        </Link>
-
+          </Link>
+          
+          <Link style={{ textDecoration: 'none', color: 'inherit' }} to="/recipeList">
                   <Menu onClick={() => handleMenu(2)} isSelected={selectedMenu === 2}>
                         <MenuIcon>
                           <LocalDiningIcon style={{ "fontSize": 30 }} />
                         </MenuIcon>
                       <MenuText>추천 레시피</MenuText>
                   </Menu>
+        </Link>
                   
                   <Menu onClick={() => handleMenu(3)} isSelected={selectedMenu === 3}>
                         <MenuIcon>
