@@ -16,9 +16,11 @@ String.format = function() {
 let pages = [];
 
 module.exports.getAPI = (name, page) => {
-    scope = page % 4;
-    page = parseInt(page / 4) + 1;
-    
+    //scope = page % 4;
+    //page = parseInt(page / 4) + 1;
+
+    console.log(name, page);
+
     let arr = [];
     return new Promise((resolve, reject) => { 
         /*
@@ -34,7 +36,7 @@ module.exports.getAPI = (name, page) => {
 
         12 => page:4
          */
-        url = String.format(searchURL, encodeURI(name), page);
+        let url = String.format(searchURL, encodeURI(name), page);
 
         request(url,  async (error, response, body) => {
             if (error) {
@@ -46,17 +48,16 @@ module.exports.getAPI = (name, page) => {
                 const $ = cheerio.load(body);
                 const recipeElementList = $(".common_sp_list_li").toArray();
 
-                for (let i = scope * 10; i < (scope * 10) + 10; i++){
+                for (let i = 0; i < recipeElementList.length; i++){
                     const item = recipeElementList[i];
                     const title = $(item).find('div.common_sp_caption > .common_sp_caption_tit.line2').text();
                     const thumbImage = $(item).find('.common_sp_thumb > .common_sp_link > img').attr('src');
                     const recipeId = $(item).find('.common_sp_thumb > a').attr('href');
-                    // const ingredients = await getIngredientInfo(recipeId);
+                    
                     arr.push( {
                         title,
                         thumbImage,
                         recipeId,
-                       // ingredients
                     });
 
                 }
@@ -69,7 +70,7 @@ module.exports.getAPI = (name, page) => {
 }
 
 
-const getIngredientInfo = (recipeUrl) => {
+module.exports.getIngredientInfo = (recipeUrl) => {
     return new Promise(function (resolve, reject) {
         let arr2 = [];
         
@@ -100,45 +101,4 @@ const getIngredientInfo = (recipeUrl) => {
         })
     })    
 }
-
-// module.exports.getAPI = (name, page) => {
-//     let arr = [];
-//     return new Promise((resolve, reject) => { 
-//         url = String.format(searchURL, encodeURI(name), page);
-
-//         request(url,  async (error, response, body) => {
-//             if (error) {
-//                 console.error(error);
-//                 return;
-//             }
-            
-//             if (response.statusCode === 200) {
-//                 const $ = cheerio.load(body);
-//                 const recipeElementList = $(".common_sp_list_li");
-//                 let p = Promise.resolve();
-//                 recipeElementList.each(async (i, item) => {
-//                     p = p.then(async function () {
-//                         const title = $(item).find('div.common_sp_caption > .common_sp_caption_tit.line2').text();
-//                         const thumbImage = $(item).find('.common_sp_thumb > .common_sp_link > img').attr('src');
-//                         const recipeId = $(item).find('.common_sp_thumb > a').attr('href');
-//                         const ingredients = await getIngredientInfo(recipeId);
-//                         arr.push( {
-//                             title,
-//                             thumbImage,
-//                             recipeId,
-//                             ingredients
-//                         });
-//                     })
-//                 });
-
-//                 p.then(function () {
-//                     resolve(arr);
-//                 })
-                
-//                 return;
-//             }
-    
-//         });
-//     })
-// }
 
