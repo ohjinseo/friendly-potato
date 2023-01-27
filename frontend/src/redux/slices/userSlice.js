@@ -9,10 +9,9 @@ export const registerUserAction = createAsyncThunk(
     "user/register",
     async (payload, { rejectWithValue, dispatch }) => {
         try {
-            const { data } = await axios.post(`${baseURL}/auth/register`, payload);
-            dispatch(registerAddIngredientAction(data));
-            dispatch(registerRefrigeratorAction(data));
-            return data;
+            const { accessToken } = await axios.post(`${baseURL}/auth/register`, payload);
+            dispatch(registerAddIngredientAction(accessToken));
+            dispatch(registerRefrigeratorAction(accessToken));
         } catch (error) {
             return rejectWithValue(error?.response?.data);
         }
@@ -24,11 +23,11 @@ export const loginUserAction = createAsyncThunk(
     "user/login",
     async (payload, { rejectWithValue, dispatch }) => {
         try {
-            const { data } = await axios.post(`${baseURL}/auth/login`, payload);
+            const data = await axios.post(`${baseURL}/auth/login`, payload);
+            console.log(data);
 
-            localStorage.setItem("userAuth", JSON.stringify(data));
-
-            return data;
+            localStorage.setItem("accessToken", data.data.accessToken);
+            localStorage.setItem("refreshToken", data.data.refreshToken);
         } catch (error) {
             return rejectWithValue(error?.response?.data);
         }
@@ -39,20 +38,18 @@ export const logout = createAsyncThunk(
     "user/logout",
     async (payload, { rejectWithValue }) => {
         try {
-            localStorage.removeItem("userAuth");
+            localStorage.removeItem("accessToken");
+            localStorage.removeItem("refreshToken");
         } catch (error) {
             return rejectWithValue(error.response.data);
         }
     }
 )
 
-const userLoginFromStorage = localStorage.getItem("userAuth")
-    ? JSON.parse(localStorage.getItem("userAuth")) : undefined;
-
 const userSlices = createSlice({
     name: "users",
     initialState: {
-        userAuth: userLoginFromStorage,
+
     },
     extraReducers: (builder) => {
         // register
@@ -64,7 +61,6 @@ const userSlices = createSlice({
         builder.addCase(registerUserAction.fulfilled, (state, action) => {
             state.loading = false;
             state.isRegister = true;
-            state.userAuth = action.payload;
             state.serverError = undefined;
         })
         builder.addCase(registerUserAction.rejected, (state, action) => {
@@ -81,7 +77,6 @@ const userSlices = createSlice({
         builder.addCase(loginUserAction.fulfilled, (state, action) => {
             state.loading = false;
             state.isLogin = true;
-            state.userAuth = action.payload;
         })
         builder.addCase(loginUserAction.rejected, (state, action) => {
             state.loading = false;
@@ -92,7 +87,6 @@ const userSlices = createSlice({
         // logout
         builder.addCase(logout.fulfilled, (state, action) => {
             state.loading = false;
-            state.userAuth = undefined;
         })
     }
 })

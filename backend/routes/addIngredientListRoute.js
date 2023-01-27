@@ -1,4 +1,4 @@
-const { verifyToken, verifyTokenAndAuthorization } = require("../middlewares/jwtMiddleware");
+const { verifyToken } = require("../middlewares/jwtMiddleware");
 const AddIngredientList = require("../models/AddIngredientList");
 
 const router = require("express").Router();
@@ -7,14 +7,14 @@ const router = require("express").Router();
 router.post("/", verifyToken, async (req, res) => {
     
     try {
-        const checkAddIngredientList = await AddIngredientList.findOne({ userId: req.user.id });
+        const checkAddIngredientList = await AddIngredientList.findOne({ userId: req.userId });
 
         if (checkAddIngredientList) {
             return res.status(409).json("이미 사용자의 식재료 추가 목록이 존재합니다.");
         }
 
 
-        const newAddIngredientList = new AddIngredientList({ userId: req.user.id });
+        const newAddIngredientList = new AddIngredientList({ userId: req.userId });
         const savedIngredientList = await newAddIngredientList.save();
         res.status(200).json(savedIngredientList);
     } catch (err) {
@@ -26,7 +26,7 @@ router.post("/", verifyToken, async (req, res) => {
 router.patch("/", verifyToken, async (req, res) => {
     try {
         const updatedIngredientList = await AddIngredientList.findOneAndUpdate(
-            {userId: req.user.id},
+            {userId: req.userId},
             {
                 $set: {ingredients: []},
             },
@@ -47,7 +47,7 @@ router.patch("/", verifyToken, async (req, res) => {
 router.patch("/add", verifyToken, async (req, res) => {
     try {
         const updatedIngredientList = await AddIngredientList.findOneAndUpdate(
-            {userId: req.user.id},
+            {userId: req.userId},
             {
                 $push: {ingredients:req.body}
             },
@@ -71,7 +71,7 @@ router.patch("/delete", verifyToken, async (req, res) => {
     
     try {
         const updatedIngredientList = await AddIngredientList.findOneAndUpdate(
-            {userId: req.user.id},
+            {userId: req.userId},
             {
                 $pull: { ingredients: { _id: req.body.id } }
             },
@@ -115,7 +115,7 @@ router.patch("/update", verifyToken, async (req, res) => {
 // 사용자 추가 목록 가져오기
 router.get("", verifyToken, async (req, res) => {
     try {
-        const addIngredientList = await AddIngredientList.findOne({ userId: req.user.id })
+        const addIngredientList = await AddIngredientList.findOne({ userId: req.userId })
             .populate('ingredients.ingredientId');
         
         res.status(200).json(addIngredientList);

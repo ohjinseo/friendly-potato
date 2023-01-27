@@ -13,7 +13,7 @@ module.exports = {
 
         return jwt.sign(payload, secret, {
             algorithm: 'HS256',
-            expiresIn: '1h',
+            expiresIn: '7d',
         });
     },
 

@@ -10,15 +10,13 @@ export const registerAddIngredientAction = createAsyncThunk(
 
         const config = {
             headers: {
-                token: `Bearer ${payload.accessToken}`,
+                authorization: `Bearer ${payload.accessToken}`,
             }
         };
         try {
             const { data } = await axios.post(
                 `${baseURL}/addIngredients`,
-                {
-                    "userId": payload.userId,
-                },
+                {},
                 config
             );
                 
@@ -34,18 +32,17 @@ export const registerAddIngredientAction = createAsyncThunk(
 export const addIngredientAddAction = createAsyncThunk(
     "addIngredient/add",
     async (payload, { rejectWithValue, getState, dispatch }) => {
-        const accessToken = getState().userReducer.userAuth.accessToken;
-        const userId = getState().userReducer.userAuth.userId;
+        const accessToken = localStorage.getItem("accessToken");
 
         const config = {
             headers: {
-                token: `Bearer ${accessToken}`,
+                authorization: `Bearer ${accessToken}`,
             }
         };
 
         try {
             const { data } = await axios.patch(
-                `${baseURL}/addIngredients/add/${userId}`,
+                `${baseURL}/addIngredients/add`,
                 payload,
                 config
             );
@@ -63,17 +60,16 @@ export const addIngredientAddAction = createAsyncThunk(
 export const addIngredientDeleteAction = createAsyncThunk(
     "addIngredient/delete",
     async (payload, { rejectWithValue, getState, dispatch }) => {
-        const accessToken = getState().userReducer.userAuth.accessToken;
-        const userId = getState().userReducer.userAuth.userId;
+        const accessToken = localStorage.getItem("accessToken");
 
         const config = {
             headers: {
-                token: `Bearer ${accessToken}`,
+                authorization: `Bearer ${accessToken}`,
             }
         };
         try {
             const { data } = await axios.patch(
-                `${baseURL}/addIngredients/delete/${userId}`,
+                `${baseURL}/addIngredients/delete`,
                 payload,
                 config
             );
@@ -91,17 +87,16 @@ export const addIngredientDeleteAction = createAsyncThunk(
 export const addIngredientUpdateAction = createAsyncThunk(
     "addIngredient/update",
     async (payload, { rejectWithValue, getState, dispatch }) => {
-        const accessToken = getState().userReducer.userAuth.accessToken;
-        const userId = getState().userReducer.userAuth.userId;
+        const accessToken = localStorage.getItem("accessToken");
 
         const config = {
             headers: {
-                token: `Bearer ${accessToken}`,
+                authorization: `Bearer ${accessToken}`,
             }
         };
         try {
             const { data } = await axios.patch(
-                `${baseURL}/addIngredients/update/${userId}`,
+                `${baseURL}/addIngredients/update`,
                 payload,
                 config
             );
@@ -119,18 +114,17 @@ export const addIngredientUpdateAction = createAsyncThunk(
 export const emptyAddIngredientAction = createAsyncThunk(
     "addIngredient/empty",
     async (payload, { rejectWithValue, getState, dispatch }) => {
-        const accessToken = getState().userReducer.userAuth.accessToken;
-        const userId = getState().userReducer.userAuth.userId;
+        const accessToken = localStorage.getItem("accessToken");
 
         const config = {
             headers: {
-                token: `Bearer ${accessToken}`,
+                authorization: `Bearer ${accessToken}`,
             }
         };
         try {
             
             const { data } = await axios.patch(
-                `${baseURL}/addIngredients/${userId}`,
+                `${baseURL}/addIngredients`,
                 null,
                 config
                 );
@@ -146,17 +140,16 @@ export const emptyAddIngredientAction = createAsyncThunk(
 export const getAddIngredientAction = createAsyncThunk(
     "addIngredient/get",
     async (payload, { rejectWithValue, getState, dispatch }) => {
-        const accessToken = getState().userReducer.userAuth.accessToken;
-        const userId = getState().userReducer.userAuth.userId;
+        const accessToken = localStorage.getItem("accessToken");
 
         const config = {
             headers: {
-                token: `Bearer ${accessToken}`,
+                authorization: `Bearer ${accessToken}`,
             }
         };
         try {
             const { data } = await axios.get(
-                `${baseURL}/addIngredients/${userId}`,
+                `${baseURL}/addIngredients`,
                 config
             );
                 

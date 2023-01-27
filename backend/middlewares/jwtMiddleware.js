@@ -1,7 +1,7 @@
 const { verify } = require("../auth/auth-jwt");
 
 const verifyToken = (req, res, next) => {
-    const token = req.headers.authorization;
+    let token = req.headers.authorization;
 
     if (token && token.startsWith("Bearer")) {
         token = req.headers.authorization.split(" ")[1];
@@ -9,8 +9,8 @@ const verifyToken = (req, res, next) => {
         const result = verify(token);
 
         if (result.ok) {
-            req.user.id = result.id;
-            req.user.isAdmin = result.isAdmin;
+            req.userId = result.id;
+            req.isAdmin = result.isAdmin;
             next();
         } else {
             res.status(401).json({
@@ -25,7 +25,7 @@ const verifyToken = (req, res, next) => {
 
 const verifyTokenAndAdmin = (req, res, next) => {
     verifyToken(req, res, () => {
-        if(req.user.isAdmin){
+        if(req.isAdmin){
             next();
         }else{
             res.status(403).json("관리자만 허용 가능합니다.");

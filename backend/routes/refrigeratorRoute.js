@@ -1,4 +1,4 @@
-const { verifyToken, verifyToken } = require("../middlewares/jwtMiddleware");
+const { verifyToken } = require("../middlewares/jwtMiddleware");
 const Refrigerator = require("../models/Refrigerator");
 
 const router = require("express").Router();
@@ -6,13 +6,13 @@ const router = require("express").Router();
 // 냉장고 생성
 router.post("/", verifyToken, async (req, res) => {
     try {
-        const checkRefrigerator = await Refrigerator.findOne({ userId: req.user.id });
+        const checkRefrigerator = await Refrigerator.findOne({ userId: req.userId });
 
         if (checkRefrigerator) {
             return res.status(409).json("이미 사용자의 냉장고가 존재합니다.");
         }
 
-        const newRefrigerator = new Refrigerator({ userId: req.user.id });
+        const newRefrigerator = new Refrigerator({ userId: req.userId });
 
         const savedRefrigerator = await newRefrigerator.save();
         res.status(200).json(savedRefrigerator);
@@ -25,7 +25,7 @@ router.post("/", verifyToken, async (req, res) => {
 router.patch("/add", verifyToken, async (req, res) => {
     try {
         const updatedRefrigerator = await Refrigerator.findOneAndUpdate(
-            { userId: req.user.id },
+            { userId: req.userId },
             {
                 $push: {
                     ingredients: { $each: req.body.ingredients }
@@ -49,7 +49,7 @@ router.patch("/add", verifyToken, async (req, res) => {
 router.patch("/delete", verifyToken, async (req, res) => {
     try {
         const updatedRefrigerator = await Refrigerator.findOneAndUpdate(
-            {userId: req.user.id},
+            {userId: req.userId},
             {
                 $pull: { ingredients: { _id: req.body.id } }
             },
@@ -92,9 +92,10 @@ router.patch("/update", verifyToken, async (req, res) => {
 // 사용자 냉장고 가져오기
 router.get("", verifyToken, async (req, res) => {
     try {
-    
-        const refrigerator = await Refrigerator.findOne({ userId: req.user.id })
-        .populate('ingredients.ingredientId');
+        console.log(req.userId)
+        const refrigerator = await Refrigerator.findOne({ userId: req.userId })
+            .populate('ingredients.ingredientId');
+
         res.status(200).json(refrigerator);
     } catch (err) {
         res.status(500).json(err);

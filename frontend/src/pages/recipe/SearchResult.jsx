@@ -30,7 +30,6 @@ const SearchResult = () => {
             setRecipeList(recipes);
         }
     }, [recipes])
-    console.log(recipeList);
 
     useEffect(() => {
         if (ingredients) {

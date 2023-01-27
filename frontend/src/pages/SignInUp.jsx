@@ -120,10 +120,10 @@ const Login = () => {
     }
     
     const res = useSelector(state => state.userReducer);
-    const { loading, isRegister, isLogin, userAuth } = res;
+    const { loading, isRegister, isLogin} = res;
     
     useEffect(() => {
-        if (userAuth && isLogin) {
+        if (isLogin) {
             navigate("/");
         }
     }, [isLogin]);

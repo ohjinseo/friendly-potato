@@ -13,17 +13,16 @@ const GlobalStyle = createGlobalStyle`
 `
 
 const App = () => {
-  const { userAuth } = useSelector(state => state.userReducer);
 
   return (
     <>
       <GlobalStyle />
       <BrowserRouter>
         <Routes>
-          <Route path="/" element={userAuth ? <MyRefrigerator /> : <SignInUp />} />
-          <Route path="/add/ingredient" element={userAuth ? <AddIngredient /> : <SignInUp />} />
-          <Route path="/login" element={userAuth ? <Navigate to="/" /> : <SignInUp />} />
-          <Route path="/recipeList" element={userAuth ? <RecipeList /> : <SignInUp />} />
+          <Route path="/" element={<MyRefrigerator />} />
+          <Route path="/add/ingredient" element={<AddIngredient />} />
+          <Route path="/login" element={<SignInUp />} />
+          <Route path="/recipeList" element={<RecipeList />} />
         </Routes>
       </BrowserRouter>
     </>

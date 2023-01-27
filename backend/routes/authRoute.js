@@ -40,10 +40,12 @@ router.post('/login', async (req, res) => {
         /* 
         key : userId, value : refreshToken
         */
-        redisClient.set(user._id, refreshToken);
+    
+        redisClient.set(user._id.toString(), refreshToken);
 
         res.status(200).json({ accessToken, refreshToken });
     } catch (err) {
+        console.log(err)
         res.status(500).json(err);
     }
 });

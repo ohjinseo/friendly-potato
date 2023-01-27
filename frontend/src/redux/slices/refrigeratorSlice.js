@@ -8,16 +8,14 @@ export const registerRefrigeratorAction = createAsyncThunk(
     async (payload, { rejectWithValue, dispatch }) => {
         const config = {
             headers: {
-                token: `Bearer ${payload.accessToken}`,
+                authorization: `Bearer ${payload.accessToken}`,
             }
         };
 
         try {
             const { data } = await axios.post(
                 `${baseURL}/refrigerators`,
-                {
-                    "userId": payload.userId,
-                },
+                {},
                 config
             );
                 
@@ -33,18 +31,17 @@ export const registerRefrigeratorAction = createAsyncThunk(
 export const refrigeratorAddAction = createAsyncThunk(
     "refrigerator/add",
     async (payload, { rejectWithValue, getState, dispatch }) => {
-        const accessToken = getState().userReducer.userAuth.accessToken;
-        const userId = getState().userReducer.userAuth.userId;
+        const accessToken = localStorage.getItem("accessToken");
 
         const config = {
             headers: {
-                token: `Bearer ${accessToken}`,
+                authorization: `Bearer ${accessToken}`,
             }
         };
 
         try {
             const { data } = await axios.patch(
-                `${baseURL}/refrigerators/add/${userId}`,
+                `${baseURL}/refrigerators/add`,
                 payload,
                 config
             );
@@ -60,17 +57,16 @@ export const refrigeratorAddAction = createAsyncThunk(
 export const refrigeratorDeleteAction = createAsyncThunk(
     "refrigerator/delete",
     async (payload, { rejectWithValue, getState, dispatch }) => {
-        const accessToken = getState().userReducer.userAuth.accessToken;
-        const userId = getState().userReducer.userAuth.userId;
+        const accessToken = localStorage.getItem("accessToken");
 
         const config = {
             headers: {
-                token: `Bearer ${accessToken}`,
+                authorization: `Bearer ${accessToken}`,
             }
         };
         try {
             const { data } = await axios.patch(
-                `${baseURL}/refrigerators/delete/${userId}`,
+                `${baseURL}/refrigerators/delete`,
                 payload,
                 config
             );
@@ -89,17 +85,16 @@ export const refrigeratorDeleteAction = createAsyncThunk(
 export const getRefrigeratorAction = createAsyncThunk(
     "refrigerator/get",
     async (payload, { rejectWithValue, getState, dispatch }) => {
-        const accessToken = getState().userReducer.userAuth.accessToken;
-        const userId = getState().userReducer.userAuth.userId;
+        const accessToken = localStorage.getItem("accessToken");
 
         const config = {
             headers: {
-                token: `Bearer ${accessToken}`,
+                authorization: `Bearer ${accessToken}`,
             }
         };
         try {
             const { data } = await axios.get(
-                `${baseURL}/refrigerators/${userId}`,
+                `${baseURL}/refrigerators`,
                 config
             );
                 
@@ -114,17 +109,16 @@ export const getRefrigeratorAction = createAsyncThunk(
 export const refrigeratorUpdateAction = createAsyncThunk(
     "refrigerator/update",
     async (payload, { rejectWithValue, getState, dispatch }) => {
-        const accessToken = getState().userReducer.userAuth.accessToken;
-        const userId = getState().userReducer.userAuth.userId;
+        const accessToken = localStorage.getItem("accessToken");
 
         const config = {
             headers: {
-                token: `Bearer ${accessToken}`,
+                authorization: `Bearer ${accessToken}`,
             }
         };
         try {
             const { data } = await axios.patch(
-                `${baseURL}/refrigerators/update/${userId}`,
+                `${baseURL}/refrigerators/update`,
                 payload,
                 config
             );
