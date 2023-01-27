@@ -14,7 +14,7 @@ router.post("/", verifyToken, async (req, res) => {
         }
 
 
-        const newAddIngredientList = new AddIngredientList(req.body);
+        const newAddIngredientList = new AddIngredientList({ userId: req.user.id });
         const savedIngredientList = await newAddIngredientList.save();
         res.status(200).json(savedIngredientList);
     } catch (err) {
@@ -23,10 +23,10 @@ router.post("/", verifyToken, async (req, res) => {
 });
 
 // 목록 비우기
-router.patch("/:userId", verifyTokenAndAuthorization, async (req, res) => {
+router.patch("/", verifyToken, async (req, res) => {
     try {
         const updatedIngredientList = await AddIngredientList.findOneAndUpdate(
-            {userId: req.params.userId},
+            {userId: req.user.id},
             {
                 $set: {ingredients: []},
             },
@@ -44,10 +44,10 @@ router.patch("/:userId", verifyTokenAndAuthorization, async (req, res) => {
 })
 
 // 목록 추가
-router.patch("/add/:userId", verifyTokenAndAuthorization, async (req, res) => {
+router.patch("/add", verifyToken, async (req, res) => {
     try {
         const updatedIngredientList = await AddIngredientList.findOneAndUpdate(
-            {userId: req.params.userId},
+            {userId: req.user.id},
             {
                 $push: {ingredients:req.body}
             },
@@ -67,11 +67,11 @@ router.patch("/add/:userId", verifyTokenAndAuthorization, async (req, res) => {
 })
 
 // 목록 삭제
-router.patch("/delete/:userId", verifyTokenAndAuthorization, async (req, res) => {
+router.patch("/delete", verifyToken, async (req, res) => {
     
     try {
         const updatedIngredientList = await AddIngredientList.findOneAndUpdate(
-            {userId: req.params.userId},
+            {userId: req.user.id},
             {
                 $pull: { ingredients: { _id: req.body.id } }
             },
@@ -89,7 +89,7 @@ router.patch("/delete/:userId", verifyTokenAndAuthorization, async (req, res) =>
 });
 
 // 목록 수정
-router.patch("/update/:userId", verifyTokenAndAuthorization, async (req, res) => {
+router.patch("/update", verifyToken, async (req, res) => {
     try {
         const updatedIngredientList = AddIngredientList.updateOne({ 'ingredients._id': req.body.id },
             {
@@ -113,9 +113,9 @@ router.patch("/update/:userId", verifyTokenAndAuthorization, async (req, res) =>
 
 
 // 사용자 추가 목록 가져오기
-router.get("/:userId", verifyTokenAndAuthorization, async (req, res) => {
+router.get("", verifyToken, async (req, res) => {
     try {
-        const addIngredientList = await AddIngredientList.findOne({ userId: req.params.userId })
+        const addIngredientList = await AddIngredientList.findOne({ userId: req.user.id })
             .populate('ingredients.ingredientId');
         
         res.status(200).json(addIngredientList);

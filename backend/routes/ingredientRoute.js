@@ -15,10 +15,10 @@ router.post("/", verifyTokenAndAdmin, async (req, res) => {
 });
 
 // update
-router.put("/:userId", verifyTokenAndAdmin, async (req, res) => {
+router.put("/", verifyTokenAndAdmin, async (req, res) => {
     try {
         const updatedIngredient = await Ingredient.findByIdAndUpdate(
-            req.params.userId,
+            req.user.id,
             {
                 $set: req.body,
             },
@@ -32,9 +32,9 @@ router.put("/:userId", verifyTokenAndAdmin, async (req, res) => {
 });
 
 // delete
-router.delete("/:userId", verifyTokenAndAdmin, async (req, res) => {
+router.delete("/", verifyTokenAndAdmin, async (req, res) => {
     try {
-      await Ingredient.findByIdAndDelete(req.params.userId);
+      await Ingredient.findByIdAndDelete(req.user.id);
       res.status(200).json("식재료 삭제 성공");
     } catch (err) {
       res.status(500).json(err);
