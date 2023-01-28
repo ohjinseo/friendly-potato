@@ -1,6 +1,7 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
 import { baseURL } from "../../utils/baseURL";
+import { instance } from "../../utils/config";
 
 // 사용자 냉장고 생성
 export const registerRefrigeratorAction = createAsyncThunk(
@@ -13,7 +14,7 @@ export const registerRefrigeratorAction = createAsyncThunk(
         };
 
         try {
-            const { data } = await axios.post(
+            const { data } = await instance.post(
                 `${baseURL}/refrigerators`,
                 {},
                 config
@@ -40,7 +41,7 @@ export const refrigeratorAddAction = createAsyncThunk(
         };
 
         try {
-            const { data } = await axios.patch(
+            const { data } = await instance.patch(
                 `${baseURL}/refrigerators/add`,
                 payload,
                 config
@@ -65,7 +66,7 @@ export const refrigeratorDeleteAction = createAsyncThunk(
             }
         };
         try {
-            const { data } = await axios.patch(
+            const { data } = await instance.patch(
                 `${baseURL}/refrigerators/delete`,
                 payload,
                 config
@@ -93,7 +94,7 @@ export const getRefrigeratorAction = createAsyncThunk(
             }
         };
         try {
-            const { data } = await axios.get(
+            const { data } = await instance.get(
                 `${baseURL}/refrigerators`,
                 config
             );
@@ -117,7 +118,7 @@ export const refrigeratorUpdateAction = createAsyncThunk(
             }
         };
         try {
-            const { data } = await axios.patch(
+            const { data } = await instance.patch(
                 `${baseURL}/refrigerators/update`,
                 payload,
                 config

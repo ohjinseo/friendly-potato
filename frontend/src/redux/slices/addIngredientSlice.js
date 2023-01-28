@@ -1,6 +1,7 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
 import { baseURL } from "../../utils/baseURL";
+import { instance } from "../../utils/config";
 import { refrigeratorAddAction } from "./refrigeratorSlice";
 
 // 추가 목록 생성
@@ -14,7 +15,7 @@ export const registerAddIngredientAction = createAsyncThunk(
             }
         };
         try {
-            const { data } = await axios.post(
+            const { data } = await instance.post(
                 `${baseURL}/addIngredients`,
                 {},
                 config
@@ -41,7 +42,7 @@ export const addIngredientAddAction = createAsyncThunk(
         };
 
         try {
-            const { data } = await axios.patch(
+            const { data } = await instance.patch(
                 `${baseURL}/addIngredients/add`,
                 payload,
                 config
@@ -68,7 +69,7 @@ export const addIngredientDeleteAction = createAsyncThunk(
             }
         };
         try {
-            const { data } = await axios.patch(
+            const { data } = await instance.patch(
                 `${baseURL}/addIngredients/delete`,
                 payload,
                 config
@@ -95,7 +96,7 @@ export const addIngredientUpdateAction = createAsyncThunk(
             }
         };
         try {
-            const { data } = await axios.patch(
+            const { data } = await instance.patch(
                 `${baseURL}/addIngredients/update`,
                 payload,
                 config
@@ -123,7 +124,7 @@ export const emptyAddIngredientAction = createAsyncThunk(
         };
         try {
             
-            const { data } = await axios.patch(
+            const { data } = await instance.patch(
                 `${baseURL}/addIngredients`,
                 null,
                 config
@@ -148,7 +149,7 @@ export const getAddIngredientAction = createAsyncThunk(
             }
         };
         try {
-            const { data } = await axios.get(
+            const { data } = await instance.get(
                 `${baseURL}/addIngredients`,
                 config
             );

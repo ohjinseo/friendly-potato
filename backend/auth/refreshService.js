@@ -1,4 +1,4 @@
-const { sign, verify, refreshVerify } = require("./auth-jwt");
+const { refreshVerify, accessVerify, generateAccessToken } = require("./jwtService");
 const jwt = require("jsonwebtoken");
 const User = require("../models/User");
 
@@ -8,9 +8,9 @@ const refresh = async (req, res) => {
         const refreshToken = req.headers.refresh;
 
         // accessToken 검증
-        const accessResult = verify(accessToken);
+        const accessResult = accessVerify(accessToken);
 
-        // accessToken 디코딩하여 유저 정보를 가져옴
+        // refreshToken을 가져오기 위해 accessToken 디코딩하여 유저 정보를 가져옴
         const decoded = jwt.decode(accessToken);
 
         if (decoded === null) {
@@ -24,7 +24,7 @@ const refresh = async (req, res) => {
         try {
             user = await User.findById(decoded.id);
         } catch (error) {
-            res.status(401).json({
+            return res.status(401).json({
                 ok: false,
                 message: error.message,
             })
@@ -35,18 +35,18 @@ const refresh = async (req, res) => {
         if (accessResult.ok === false && authResult.message === "jwt expired") {
             // 1. accessToken이 만료되고, refreshToken도 만료된 경우 -> 새로 로그인
             if (refreshResult.ok === false) {
-                return res.status(401).json({
+                return res.status(refreshResult.code).json({
                     ok: false,
-                    message: '인가된 사용자가 아닙니다.'
+                    message: refreshResult.message
                 });
             }
             
             
             // 2.accessToken이 만료되고, refreshToken은 만료되지 않은 경우 -> 새로운 accessToken 발급
             else {
-                const newAccessToken = sign(user);
+                const newAccessToken = generateAccessToken(user);
 
-                res.status(200).json({
+                return res.status(200).json({
                     ok: true,
                     data: {
                         accessToken: newAccessToken,

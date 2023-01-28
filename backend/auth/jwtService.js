@@ -5,7 +5,7 @@ const secret = process.env.JWT_SEC;
 
 module.exports = {
     // access token 발급
-    sign: (user) => {
+    generateAccessToken: (user) => {
         const payload = {
             id: user._id,
             isAdmin: user.isAdmin,
@@ -13,12 +13,12 @@ module.exports = {
 
         return jwt.sign(payload, secret, {
             algorithm: 'HS256',
-            expiresIn: '7d',
+            expiresIn: '15m',
         });
     },
 
     // access token 검증
-    verify: (token) => {
+    accessVerify: (token) => {
         let decoded = null;
         try {
             decoded = jwt.verify(token, secret);
@@ -36,7 +36,7 @@ module.exports = {
     },
 
     // refresh token 발급
-    refresh: () => {
+    generatorRefreshToken: () => {
         return jwt.sign({}, secret, {
             algorithm: 'HS256',
             expiresIn:'14d',
@@ -44,27 +44,42 @@ module.exports = {
     },
 
     // refresh token 검증
-    refreshVerify: async (token, userId) => {
-        const getAsync = promisify(redisClient.get).bind(redisClient);
+    refreshVerify: async (refreshToken, userId) => {
+        const getAsyncRedis = promisify(redisClient.get).bind(redisClient);
 
         try {
             // userId key값을 이용해 refresh token을 가져옴
-            const data = await getAsync(userId);
+            const data = await getAsyncRedis(userId);
 
-            if (token === data) {
+            // refreshToken과 DB에 저장된 refreshToken 비교
+            if (refreshToken === data) {
                 try {
-                    jwt.verify(token, secret);
-                    return true;
+                    jwt.verify(refreshToken, secret);
+                    return {
+                        ok: true
+                    };
                 } catch (error) {
-                    return false;
+                    return {
+                        ok: false,
+                        code: 403,
+                        message: error.message
+                    }
                 }
             }
 
             else {
-                return false;
+                return {
+                    ok: false,
+                    code: 401,
+                    message: '인가된 사용자가 아닙니다.'
+                };
             }
         } catch (error) {
-            return false;
+            return {
+                ok: false,
+                code: 500,
+                message: error.message
+            }
         }
     }
 }

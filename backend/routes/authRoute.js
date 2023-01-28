@@ -1,8 +1,9 @@
 const router = require("express").Router();
-const { refresh } = require("../auth/auth-jwt");
-const jwt = require("../auth/auth-jwt");
+const refreshService = require("../auth/refreshService");
+const jwtService = require("../auth/jwtService");
 const redisClient = require("../config/redis");
 const User = require("../models/User");
+const { verifyToken } = require("../middlewares/jwtMiddleware");
 
 /*
     legacy architecture
@@ -15,7 +16,7 @@ router.post("/register", async (req, res) => {
     try {
         const user = await newUser.save();
 
-        const accessToken = jwt.sign(user);
+        const accessToken = jwtService.generateAccessToken(user);
 
         res.status(200).json({accessToken});
     } catch (err) {
@@ -34,8 +35,8 @@ router.post('/login', async (req, res) => {
         (!user || !user.isPasswordMatch(password)) &&
             res.status(401).json("이메일과 비밀번호를 다시 확인해주세요.");
 
-        const accessToken = jwt.sign(user);
-        const refreshToken = jwt.refresh();
+        const accessToken = jwtService.generateAccessToken(user);
+        const refreshToken = jwtService.generatorRefreshToken();
 
         /* 
         key : userId, value : refreshToken
@@ -51,6 +52,14 @@ router.post('/login', async (req, res) => {
 });
 
 // accessToken을 재발급 받기 위한 router
-router.get("/refresh", refresh);
+router.get("/refresh", refreshService);
+
+// 로그아웃
+router.post("/logout", verifyToken, (req, res) => {
+    redisClient.del(req.userId);
+    res.status(200).json("로그아웃 성공");
+})
+
+
 
 module.exports = router;
