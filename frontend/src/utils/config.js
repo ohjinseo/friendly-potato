@@ -1,47 +1,28 @@
 import axios from "axios";
-import jwt_decode from "jwt-decode";
-import { baseURL } from "./baseURL";
+import { useDispatch } from "react-redux";
+import authSlice from '../redux/slices/authSlice'
 
-const getRefreshToken = async () => {
-    const accessToken = localStorage.getItem("accessToken");
-    const refreshToken = localStorage.getItem("refreshToken");
+const JWT_EXPIRY_TIME = 24 * 3600 * 1000;
 
-        const config = {
-            headers: {
-                authorization: `Bearer ${accessToken}`,
-                refresh: refreshToken
-            }
-    };
+export const instance = axios.create({
+    baseURL: process.env.REACT_APP_BASE_URL,
+    withCredentials: true
+});
+
+export const OnSilentRefresh = async (dispatch) => {
     
-    try {
-        const { data } = await axios.get(
-            `${baseURL}/auth/refresh`,
-            config
-        );
-        
-        return data;
-
-    } catch (error) {
-        console.log(error);
-    }
+    const userId = localStorage.getItem("userId");
+    const res = await instance.post(`/auth/silent-refresh/${userId}`)
+    console.log("onSilentRefresh function");
+    
+    OnLoginSuccess(res, dispatch);
 }
 
-export const instance = axios.create();
 
-instance.interceptors.request.use(
-    async (config) => {
-
-        let currentDate = new Date();
-        const accessToken = localStorage.getItem("accessToken");
-        const decodedToken = jwt_decode(accessToken);
-
-        if (decodedToken.exp * 1000 < currentDate.getTime()) {
-            const data = await getRefreshToken();
-            config.headers["authorization"] = `Bearer ${data.accessToken}`;
-        }
-
-        return config;
-    }, (error) => {
-        return Promise.reject(error);
-    }
-)
+export const OnLoginSuccess = (response, dispatch) => {
+    const { accessToken } = response.data.data;
+    
+    instance.defaults.headers.common['Authorization'] = `Bearer ${accessToken}`;
+    dispatch(authSlice.actions.setToken());
+    setTimeout(OnSilentRefresh, JWT_EXPIRY_TIME - 60000);
+}

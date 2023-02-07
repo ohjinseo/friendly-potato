@@ -3,9 +3,9 @@ const jwt = require("jsonwebtoken");
 const User = require("../models/User");
 
 const refresh = async (req, res) => {
-    if (req.headers.authorization && req.headers.refresh) {
+    if (req.headers.authorization && req.cookies.refresh) {
         const accessToken = req.headers.authorization.split(" ")[1];
-        const refreshToken = req.headers.refresh;
+        const refreshToken = req.cookies.refreshToken;
 
         // accessToken 검증
         const accessResult = accessVerify(accessToken);

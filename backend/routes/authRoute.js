@@ -4,6 +4,7 @@ const jwtService = require("../auth/jwtService");
 const redisClient = require("../config/redis");
 const User = require("../models/User");
 const { verifyToken } = require("../middlewares/jwtMiddleware");
+const silentRefreshService = require("../auth/silentRefreshService");
 
 /*
     legacy architecture
@@ -17,7 +18,7 @@ router.post("/register", async (req, res) => {
         const user = await newUser.save();
 
         const accessToken = jwtService.generateAccessToken(user);
-
+        
         res.status(200).json({accessToken});
     } catch (err) {
         res.status(500).json(err);
@@ -44,6 +45,11 @@ router.post('/login', async (req, res) => {
     
         redisClient.set(user._id.toString(), refreshToken);
 
+        res.cookie("refreshToken", refreshToken, {
+            maxAge: 31536000,
+            httpOnly: true
+        });
+
         res.status(200).json({ accessToken, refreshToken });
     } catch (err) {
         console.log(err)
@@ -59,6 +65,8 @@ router.post("/logout", verifyToken, (req, res) => {
     redisClient.del(req.userId);
     res.status(200).json("로그아웃 성공");
 })
+
+router.post("/silent-refresh/:id", silentRefreshService);
 
 
 

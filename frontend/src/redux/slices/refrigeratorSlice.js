@@ -1,7 +1,7 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
 import { baseURL } from "../../utils/baseURL";
-import { instance } from "../../utils/config";
+import { instance, onSilentRefresh } from "../../utils/config";
 
 // 사용자 냉장고 생성
 export const registerRefrigeratorAction = createAsyncThunk(
@@ -86,19 +86,11 @@ export const refrigeratorDeleteAction = createAsyncThunk(
 export const getRefrigeratorAction = createAsyncThunk(
     "refrigerator/get",
     async (payload, { rejectWithValue, getState, dispatch }) => {
-        const accessToken = localStorage.getItem("accessToken");
-
-        const config = {
-            headers: {
-                authorization: `Bearer ${accessToken}`,
-            }
-        };
         try {
+            console.log("getRefrigeratorAction")
             const { data } = await instance.get(
-                `${baseURL}/refrigerators`,
-                config
-            );
-                
+                `${baseURL}/refrigerators`
+                );
             return data;
         } catch (error) {
             return rejectWithValue(error.response.data);

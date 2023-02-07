@@ -1,8 +1,6 @@
 import React, { useState } from 'react'
 import styled from 'styled-components';
 import Navbar from '../components/navbar/Navbar'
-
-import {ingredientList} from "../ingredientDummy";
 import { Link } from 'react-router-dom';
 
 // icons
@@ -18,6 +16,8 @@ import Categories from '../components/categories/Categories';
 import { useDispatch, useSelector } from 'react-redux';
 import { useEffect } from 'react';
 import { getRefrigeratorAction } from '../redux/slices/refrigeratorSlice';
+import { OnSilentRefresh, onSilentRefresh } from '../utils/config';
+import { silentRefreshAction } from '../redux/slices/userSlice';
 
 const HomeContainer = styled.div`
     display: flex;
@@ -150,9 +150,18 @@ const Home = () => {
     const [searchContent, setSearchContent] = useState("");
     const dispatch = useDispatch();
 
+    const token = useSelector(state => state?.authReducer?.token);
+
     useEffect(() => {
-        dispatch(getRefrigeratorAction());
+        OnSilentRefresh(dispatch);
     }, []);
+    
+    useEffect(() => {
+        if (token) {
+            dispatch(getRefrigeratorAction());
+            
+        }
+    },[token])
 
     const res = useSelector(state => state?.refrigeratorReducer?.refrigerator?.ingredients);
 

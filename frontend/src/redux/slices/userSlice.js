@@ -1,6 +1,7 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
 import { baseURL } from "../../utils/baseURL";
+import { instance, OnLoginSuccess, onLoginSuccess } from "../../utils/config";
 import { registerAddIngredientAction } from "./addIngredientSlice";
 import { registerRefrigeratorAction } from "./refrigeratorSlice";
 
@@ -23,11 +24,8 @@ export const loginUserAction = createAsyncThunk(
     "user/login",
     async (payload, { rejectWithValue, dispatch }) => {
         try {
-            const data = await axios.post(`${baseURL}/auth/login`, payload);
-            console.log(data);
-
-            localStorage.setItem("accessToken", data.data.accessToken);
-            localStorage.setItem("refreshToken", data.data.refreshToken);
+            const data = await instance.post(`${baseURL}/auth/login`, payload);
+            OnLoginSuccess(data);
         } catch (error) {
             return rejectWithValue(error?.response?.data);
         }
@@ -38,8 +36,7 @@ export const logout = createAsyncThunk(
     "user/logout",
     async (payload, { rejectWithValue }) => {
         try {
-            localStorage.removeItem("accessToken");
-            localStorage.removeItem("refreshToken");
+
         } catch (error) {
             return rejectWithValue(error.response.data);
         }

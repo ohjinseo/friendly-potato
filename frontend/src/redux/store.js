@@ -5,6 +5,7 @@ import ingredientReducer from "./slices/ingredientSlice";
 import refrigeratorReducer from "./slices/refrigeratorSlice";
 import navbarSlice from "./slices/navbarSlice";
 import recipeSlices from "./slices/recipeSlice";
+import authSlice from "./slices/authSlice";
 
 const store = configureStore({
     reducer: {
@@ -13,6 +14,7 @@ const store = configureStore({
         ingredientReducer,
         refrigeratorReducer,
         navbarReducer: navbarSlice.reducer,
+        authReducer: authSlice.reducer,
         recipeReducer: recipeSlices.reducer,
     },
 })
