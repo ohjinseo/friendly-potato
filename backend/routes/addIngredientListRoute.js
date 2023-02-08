@@ -1,10 +1,10 @@
-const { verifyToken } = require("../middlewares/jwtMiddleware");
+const { verifyToken, verifyTokenAndAuthorization } = require("../middlewares/jwtMiddleware");
 const AddIngredientList = require("../models/AddIngredientList");
 
 const router = require("express").Router();
 
 // 목록 생성
-router.post("/", verifyToken, async (req, res) => {
+router.post("/:id", verifyTokenAndAuthorization, async (req, res) => {
     
     try {
         const checkAddIngredientList = await AddIngredientList.findOne({ userId: req.userId });
@@ -23,7 +23,7 @@ router.post("/", verifyToken, async (req, res) => {
 });
 
 // 목록 비우기
-router.patch("/", verifyToken, async (req, res) => {
+router.patch("/:id", verifyTokenAndAuthorization, async (req, res) => {
     try {
         const updatedIngredientList = await AddIngredientList.findOneAndUpdate(
             {userId: req.userId},
@@ -44,7 +44,7 @@ router.patch("/", verifyToken, async (req, res) => {
 })
 
 // 목록 추가
-router.patch("/add", verifyToken, async (req, res) => {
+router.patch("/:id/add", verifyTokenAndAuthorization, async (req, res) => {
     try {
         const updatedIngredientList = await AddIngredientList.findOneAndUpdate(
             {userId: req.userId},
@@ -67,7 +67,7 @@ router.patch("/add", verifyToken, async (req, res) => {
 })
 
 // 목록 삭제
-router.patch("/delete", verifyToken, async (req, res) => {
+router.patch("/:id/delete", verifyTokenAndAuthorization, async (req, res) => {
     
     try {
         const updatedIngredientList = await AddIngredientList.findOneAndUpdate(
@@ -89,7 +89,7 @@ router.patch("/delete", verifyToken, async (req, res) => {
 });
 
 // 목록 수정
-router.patch("/update", verifyToken, async (req, res) => {
+router.patch("/:id/update", verifyTokenAndAuthorization, async (req, res) => {
     try {
         const updatedIngredientList = AddIngredientList.updateOne({ 'ingredients._id': req.body.id },
             {
@@ -113,7 +113,7 @@ router.patch("/update", verifyToken, async (req, res) => {
 
 
 // 사용자 추가 목록 가져오기
-router.get("", verifyToken, async (req, res) => {
+router.get("/:id", verifyTokenAndAuthorization, async (req, res) => {
     try {
         const addIngredientList = await AddIngredientList.findOne({ userId: req.userId })
             .populate('ingredients.ingredientId');

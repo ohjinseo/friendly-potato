@@ -27,11 +27,9 @@ const silentRefreshService = async (req, res) => {
         
         if (refreshResult) {
             res.status(200).json({
-                ok: true,
-                data: {
-                    accessToken: newAccessToken,
-                    refreshToken
-                }
+                accessToken: newAccessToken,
+                refreshToken
+                
             });
         } else {
             res.status(401).json({

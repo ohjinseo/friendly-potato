@@ -1,4 +1,4 @@
-const { verifyToken } = require("../middlewares/jwtMiddleware");
+const { verifyToken, verifyTokenAndAuthorization } = require("../middlewares/jwtMiddleware");
 const Refrigerator = require("../models/Refrigerator");
 
 const router = require("express").Router();
@@ -22,7 +22,7 @@ router.post("/", verifyToken, async (req, res) => {
 });
 
 // 냉장고 식재료 추가
-router.patch("/add", verifyToken, async (req, res) => {
+router.patch("/:id/add", verifyTokenAndAuthorization, async (req, res) => {
     try {
         const updatedRefrigerator = await Refrigerator.findOneAndUpdate(
             { userId: req.userId },
@@ -46,7 +46,7 @@ router.patch("/add", verifyToken, async (req, res) => {
 });
 
 // 냉장고 식재료 삭제 
-router.patch("/delete", verifyToken, async (req, res) => {
+router.patch("/:id/delete", verifyTokenAndAuthorization, async (req, res) => {
     try {
         const updatedRefrigerator = await Refrigerator.findOneAndUpdate(
             {userId: req.userId},
@@ -67,7 +67,7 @@ router.patch("/delete", verifyToken, async (req, res) => {
 });
 
 // 목록 수정
-router.patch("/update", verifyToken, async (req, res) => {
+router.patch("/:id/update", verifyTokenAndAuthorization, async (req, res) => {
     try {
         const updatedRefrigerator = Refrigerator.updateOne({ 'ingredients._id': req.body.id },
             {
@@ -90,9 +90,8 @@ router.patch("/update", verifyToken, async (req, res) => {
 })
 
 // 사용자 냉장고 가져오기
-router.get("", verifyToken, async (req, res) => {
+router.get("/:id", verifyTokenAndAuthorization, async (req, res) => {
     try {
-        console.log(req.userId)
         const refrigerator = await Refrigerator.findOne({ userId: req.userId })
             .populate('ingredients.ingredientId');
 

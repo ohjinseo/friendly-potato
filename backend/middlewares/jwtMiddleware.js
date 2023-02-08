@@ -3,8 +3,7 @@ const { accessVerify } = require("../auth/jwtService");
 const verifyToken = (req, res, next) => {
     let token = req.headers.authorization;
 
-    console.log(token);
-    console.log(req.cookies.refreshToken)
+    console.log(token, "token");
 
     if (token && token.startsWith("Bearer")) {
         token = req.headers.authorization.split(" ")[1];
@@ -29,8 +28,8 @@ const verifyToken = (req, res, next) => {
 }
 
 const verifyTokenAndAuthorization = (req, res, next) => {
-    verify(req, res, () => {
-        if (req.userId === req.params.userId || req.isAdmin) {
+    verifyToken(req, res, () => {
+        if (req.userId === req.params.id || req.isAdmin) {
             next();
         } else {
             res.status(403).json({

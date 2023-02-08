@@ -1,6 +1,6 @@
 import axios from "axios";
-import { useDispatch } from "react-redux";
 import authSlice from '../redux/slices/authSlice'
+import { logout } from "../redux/slices/userSlice";
 
 const JWT_EXPIRY_TIME = 24 * 3600 * 1000;
 
@@ -9,20 +9,27 @@ export const instance = axios.create({
     withCredentials: true
 });
 
-export const OnSilentRefresh = async (dispatch) => {
-    
+export const onSilentRefresh = async (dispatch) => {
     const userId = localStorage.getItem("userId");
-    const res = await instance.post(`/auth/silent-refresh/${userId}`)
-    console.log("onSilentRefresh function");
     
-    OnLoginSuccess(res, dispatch);
+    try {
+        const res = await instance.post(`/auth/silent-refresh/${userId}`);
+        onLoginSuccess(res, dispatch)
+    } catch (err) {
+        dispatch(authSlice.actions.setAuthenticated(false));
+        dispatch(authSlice.actions.setToken(false));
+        console.log(err);
+    }
 }
 
 
-export const OnLoginSuccess = (response, dispatch) => {
-    const { accessToken } = response.data.data;
+export const onLoginSuccess = (response, dispatch) => {
+    const { accessToken } = response.data;
     
     instance.defaults.headers.common['Authorization'] = `Bearer ${accessToken}`;
-    dispatch(authSlice.actions.setToken());
-    setTimeout(OnSilentRefresh, JWT_EXPIRY_TIME - 60000);
+    
+    dispatch(authSlice.actions.setToken(true));
+    dispatch(authSlice.actions.setAuthenticated(true));
+    
+    setTimeout(onSilentRefresh, JWT_EXPIRY_TIME - 60000);
 }

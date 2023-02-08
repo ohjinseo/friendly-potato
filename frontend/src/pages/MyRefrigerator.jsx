@@ -153,7 +153,7 @@ const Home = () => {
     const token = useSelector(state => state?.authReducer?.token);
 
     useEffect(() => {
-        OnSilentRefresh(dispatch);
+        onSilentRefresh(dispatch);
     }, []);
     
     useEffect(() => {

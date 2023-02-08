@@ -13,15 +13,16 @@ const GlobalStyle = createGlobalStyle`
 `
 
 const App = () => {
+  const isAuthenticated = useSelector(state => state?.authReducer?.isAuthenticated);
   return (
     <>
       <GlobalStyle />
       <BrowserRouter>
         <Routes>
-          <Route path="/" element={<MyRefrigerator />} />
-          <Route path="/add/ingredient" element={<AddIngredient />} />
-          <Route path="/login" element={<SignInUp />} />
-          <Route path="/recipeList" element={<RecipeList />} />
+          <Route path="/" element={isAuthenticated ? <MyRefrigerator /> : <SignInUp />} />
+          <Route path="/add/ingredient" element={isAuthenticated ? <AddIngredient /> : <SignInUp />} />
+          <Route path="/login" element={isAuthenticated ? <MyRefrigerator /> : <SignInUp />} />
+          <Route path="/recipeList" element={isAuthenticated ? <RecipeList /> : <SignInUp />} />
         </Routes>
       </BrowserRouter>
     </>

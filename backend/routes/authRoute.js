@@ -1,5 +1,4 @@
 const router = require("express").Router();
-const refreshService = require("../auth/refreshService");
 const jwtService = require("../auth/jwtService");
 const redisClient = require("../config/redis");
 const User = require("../models/User");
@@ -50,15 +49,12 @@ router.post('/login', async (req, res) => {
             httpOnly: true
         });
 
-        res.status(200).json({ accessToken, refreshToken });
+        res.status(200).json({ accessToken, userId:user._id.toString() });
     } catch (err) {
         console.log(err)
         res.status(500).json(err);
     }
 });
-
-// accessToken을 재발급 받기 위한 router
-router.get("/refresh", refreshService);
 
 // 로그아웃
 router.post("/logout", verifyToken, (req, res) => {

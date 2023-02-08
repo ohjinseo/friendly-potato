@@ -1,23 +1,17 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import axios from "axios";
-import { baseURL } from "../../utils/baseURL";
-import { instance, onSilentRefresh } from "../../utils/config";
+import { instance } from "../../utils/config";
+
+
 
 // 사용자 냉장고 생성
 export const registerRefrigeratorAction = createAsyncThunk(
     "refrigerator/register",
     async (payload, { rejectWithValue, dispatch }) => {
-        const config = {
-            headers: {
-                authorization: `Bearer ${payload.accessToken}`,
-            }
-        };
 
         try {
             const { data } = await instance.post(
-                `${baseURL}/refrigerators`,
-                {},
-                config
+                `/refrigerators`,
+                {}
             );
                 
             return data;
@@ -32,19 +26,13 @@ export const registerRefrigeratorAction = createAsyncThunk(
 export const refrigeratorAddAction = createAsyncThunk(
     "refrigerator/add",
     async (payload, { rejectWithValue, getState, dispatch }) => {
-        const accessToken = localStorage.getItem("accessToken");
 
-        const config = {
-            headers: {
-                authorization: `Bearer ${accessToken}`,
-            }
-        };
+        const userId = localStorage.getItem("userId");
 
         try {
             const { data } = await instance.patch(
-                `${baseURL}/refrigerators/add`,
-                payload,
-                config
+                `/refrigerators/${userId}/add`,
+                payload
             );
                 
             return data;
@@ -58,18 +46,13 @@ export const refrigeratorAddAction = createAsyncThunk(
 export const refrigeratorDeleteAction = createAsyncThunk(
     "refrigerator/delete",
     async (payload, { rejectWithValue, getState, dispatch }) => {
-        const accessToken = localStorage.getItem("accessToken");
 
-        const config = {
-            headers: {
-                authorization: `Bearer ${accessToken}`,
-            }
-        };
+        const userId = localStorage.getItem("userId");
+
         try {
             const { data } = await instance.patch(
-                `${baseURL}/refrigerators/delete`,
-                payload,
-                config
+                `/refrigerators/${userId}/delete`,
+                payload
             );
 
             dispatch(getRefrigeratorAction());
@@ -86,10 +69,12 @@ export const refrigeratorDeleteAction = createAsyncThunk(
 export const getRefrigeratorAction = createAsyncThunk(
     "refrigerator/get",
     async (payload, { rejectWithValue, getState, dispatch }) => {
+
+        const userId = localStorage.getItem("userId");
+
         try {
-            console.log("getRefrigeratorAction")
             const { data } = await instance.get(
-                `${baseURL}/refrigerators`
+                `/refrigerators/${userId}`
                 );
             return data;
         } catch (error) {
@@ -102,18 +87,13 @@ export const getRefrigeratorAction = createAsyncThunk(
 export const refrigeratorUpdateAction = createAsyncThunk(
     "refrigerator/update",
     async (payload, { rejectWithValue, getState, dispatch }) => {
-        const accessToken = localStorage.getItem("accessToken");
 
-        const config = {
-            headers: {
-                authorization: `Bearer ${accessToken}`,
-            }
-        };
+        const userId = localStorage.getItem("userId");
+
         try {
             const { data } = await instance.patch(
-                `${baseURL}/refrigerators/update`,
-                payload,
-                config
+                `/refrigerators/${userId}/update`,
+                payload
             );
 
             dispatch(getRefrigeratorAction());

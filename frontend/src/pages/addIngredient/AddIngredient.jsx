@@ -11,6 +11,7 @@ import AddMenu from './AddMenu';
 import {useDispatch, useSelector} from 'react-redux';
 import {emptyAddIngredientAction, getAddIngredientAction} from '../../redux/slices/addIngredientSlice';
 import {refrigeratorAddAction} from '../../redux/slices/refrigeratorSlice';
+import { onSilentRefresh, OnSilentRefresh } from '../../utils/config';
 
 const AddIndegientContainer = styled.div `
     display: flex;
@@ -138,9 +139,17 @@ const AddIngredient = () => {
 
     const dispatch = useDispatch();
 
+    const token = useSelector(state => state?.authReducer?.token);
+
     useEffect(() => {
-        dispatch(getAddIngredientAction());
-    }, [])
+        onSilentRefresh(dispatch);
+    }, []);
+
+    useEffect(() => {
+        if (token) {
+            dispatch(getAddIngredientAction());
+        }
+    }, [token])
 
     const res = useSelector(
         (state) => state

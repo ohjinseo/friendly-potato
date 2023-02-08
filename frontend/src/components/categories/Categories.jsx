@@ -32,7 +32,7 @@ const Categories = () => {
       <Container >
           <Wrapper>
               {categories.map((category, index) => (
-                  <Category selectedCategory={selectedCategory} handleCategory={handleCategory} category={category} isSelected={false} /> 
+                  <Category key={index} selectedCategory={selectedCategory} handleCategory={handleCategory} category={category} isSelected={false} /> 
               ))}
           </Wrapper>
     </Container>

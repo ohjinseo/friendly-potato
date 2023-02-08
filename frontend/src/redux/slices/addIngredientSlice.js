@@ -1,24 +1,15 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import axios from "axios";
-import { baseURL } from "../../utils/baseURL";
 import { instance } from "../../utils/config";
-import { refrigeratorAddAction } from "./refrigeratorSlice";
 
 // 추가 목록 생성
 export const registerAddIngredientAction = createAsyncThunk(
     "addIngredient/register",
     async (payload, { rejectWithValue, dispatch }) => {
 
-        const config = {
-            headers: {
-                authorization: `Bearer ${payload.accessToken}`,
-            }
-        };
         try {
             const { data } = await instance.post(
-                `${baseURL}/addIngredients`,
-                {},
-                config
+                `/addIngredients`,
+                {}
             );
                 
             return data;
@@ -33,19 +24,13 @@ export const registerAddIngredientAction = createAsyncThunk(
 export const addIngredientAddAction = createAsyncThunk(
     "addIngredient/add",
     async (payload, { rejectWithValue, getState, dispatch }) => {
-        const accessToken = localStorage.getItem("accessToken");
 
-        const config = {
-            headers: {
-                authorization: `Bearer ${accessToken}`,
-            }
-        };
+        const userId = localStorage.getItem("userId");
 
         try {
             const { data } = await instance.patch(
-                `${baseURL}/addIngredients/add`,
-                payload,
-                config
+                `/addIngredients/${userId}/add`,
+                payload
             );
 
             dispatch(getAddIngredientAction());
@@ -61,18 +46,13 @@ export const addIngredientAddAction = createAsyncThunk(
 export const addIngredientDeleteAction = createAsyncThunk(
     "addIngredient/delete",
     async (payload, { rejectWithValue, getState, dispatch }) => {
-        const accessToken = localStorage.getItem("accessToken");
 
-        const config = {
-            headers: {
-                authorization: `Bearer ${accessToken}`,
-            }
-        };
+        const userId = localStorage.getItem("userId");
+
         try {
             const { data } = await instance.patch(
-                `${baseURL}/addIngredients/delete`,
-                payload,
-                config
+                `/addIngredients/${userId}delete`,
+                payload
             );
 
             dispatch(getAddIngredientAction());
@@ -88,18 +68,13 @@ export const addIngredientDeleteAction = createAsyncThunk(
 export const addIngredientUpdateAction = createAsyncThunk(
     "addIngredient/update",
     async (payload, { rejectWithValue, getState, dispatch }) => {
-        const accessToken = localStorage.getItem("accessToken");
 
-        const config = {
-            headers: {
-                authorization: `Bearer ${accessToken}`,
-            }
-        };
+        const userId = localStorage.getItem("userId");
+
         try {
             const { data } = await instance.patch(
-                `${baseURL}/addIngredients/update`,
-                payload,
-                config
+                `/addIngredients/${userId}/update`,
+                payload
             );
 
             dispatch(getAddIngredientAction());
@@ -115,19 +90,14 @@ export const addIngredientUpdateAction = createAsyncThunk(
 export const emptyAddIngredientAction = createAsyncThunk(
     "addIngredient/empty",
     async (payload, { rejectWithValue, getState, dispatch }) => {
-        const accessToken = localStorage.getItem("accessToken");
 
-        const config = {
-            headers: {
-                authorization: `Bearer ${accessToken}`,
-            }
-        };
+        const userId = localStorage.getItem("userId");
+
         try {
             
             const { data } = await instance.patch(
-                `${baseURL}/addIngredients`,
-                null,
-                config
+                `/addIngredients/${userId}`,
+                null
                 );
                 
             return data;
@@ -141,17 +111,12 @@ export const emptyAddIngredientAction = createAsyncThunk(
 export const getAddIngredientAction = createAsyncThunk(
     "addIngredient/get",
     async (payload, { rejectWithValue, getState, dispatch }) => {
-        const accessToken = localStorage.getItem("accessToken");
 
-        const config = {
-            headers: {
-                authorization: `Bearer ${accessToken}`,
-            }
-        };
+        const userId = localStorage.getItem("userId");
+
         try {
             const { data } = await instance.get(
-                `${baseURL}/addIngredients`,
-                config
+                `/addIngredients/${userId}`
             );
                 
             return data;

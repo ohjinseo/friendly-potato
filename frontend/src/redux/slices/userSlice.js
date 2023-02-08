@@ -25,7 +25,9 @@ export const loginUserAction = createAsyncThunk(
     async (payload, { rejectWithValue, dispatch }) => {
         try {
             const data = await instance.post(`${baseURL}/auth/login`, payload);
-            OnLoginSuccess(data);
+            localStorage.setItem("userId", data?.data.userId); 
+            onLoginSuccess(data, dispatch);
+            
         } catch (error) {
             return rejectWithValue(error?.response?.data);
         }
@@ -36,7 +38,7 @@ export const logout = createAsyncThunk(
     "user/logout",
     async (payload, { rejectWithValue }) => {
         try {
-
+            localStorage.removeItem("userId");
         } catch (error) {
             return rejectWithValue(error.response.data);
         }
@@ -78,6 +80,7 @@ const userSlices = createSlice({
         builder.addCase(loginUserAction.rejected, (state, action) => {
             state.loading = false;
             state.isLogin = false;
+            state.serverError = action?.error?.message;
         });
 
 

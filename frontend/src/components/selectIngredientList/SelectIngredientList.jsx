@@ -27,7 +27,7 @@ const SelectIngredientList = () => {
       <Container>
           <Wrapper>
               {ingredients?.map((ingredient, index) => (
-                  <SelectIngredient ingredient={ingredient} isSelected={false} /> 
+                  <SelectIngredient key={index} ingredient={ingredient} isSelected={false} /> 
               ))}
           </Wrapper>
     </Container>

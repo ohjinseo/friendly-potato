@@ -1,6 +1,4 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import axios from "axios";
-import { baseURL } from "../../utils/baseURL";
 import { instance } from "../../utils/config";
 
 // 재료 카테고리 별로 가져오기
@@ -8,7 +6,6 @@ export const getIngredientAction = createAsyncThunk(
     "ingredient/get",
     async (payload, { rejectWithValue, getState, dispatch }) => {
         try {
-            console.log("hel");
             const { data } = await instance.get(
                 `/ingredients?category=${payload.category}`
             );
