@@ -3,6 +3,7 @@ import axios from "axios";
 import { baseURL } from "../../utils/baseURL";
 import { instance, OnLoginSuccess, onLoginSuccess } from "../../utils/config";
 import { registerAddIngredientAction } from "./addIngredientSlice";
+import authSlice from "./authSlice";
 import { registerRefrigeratorAction } from "./refrigeratorSlice";
 
 // 회원가입 비동기 액션
@@ -36,9 +37,11 @@ export const loginUserAction = createAsyncThunk(
 
 export const logout = createAsyncThunk(
     "user/logout",
-    async (payload, { rejectWithValue }) => {
+    async (payload, { rejectWithValue, dispatch }) => {
         try {
             localStorage.removeItem("userId");
+            dispatch(authSlice.actions.setAuthenticated(false));
+            dispatch(authSlice.actions.setToken(false));
         } catch (error) {
             return rejectWithValue(error.response.data);
         }

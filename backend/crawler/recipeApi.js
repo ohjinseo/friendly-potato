@@ -1,6 +1,7 @@
 const request = require("request");
 const cheerio = require("cheerio");
-
+const Recipe = require("../models/Recipe");
+const axios = require("axios");
 const searchURL = "https://www.10000recipe.com/recipe/list.html?q={0}&order=reco&page={1}";
 const baseURL = "https://www.10000recipe.com"
 
@@ -52,7 +53,7 @@ module.exports.getAPI = (name, page) => {
                     const item = recipeElementList[i];
                     const title = $(item).find('div.common_sp_caption > .common_sp_caption_tit.line2').text();
                     const thumbImage = $(item).find('.common_sp_thumb > .common_sp_link > img').attr('src');
-                    const recipeId = $(item).find('.common_sp_thumb > a').attr('href');
+                    const recipeId = $(item).find('.common_sp_thumb > a').attr('href').split("/")[2];
                     
                     arr.push( {
                         title,
@@ -101,4 +102,52 @@ module.exports.getIngredientInfo = (recipeUrl) => {
         })
     })    
 }
+
+module.exports.startCrawling =async () => {
+    const baseUrl = "https://www.10000recipe.com/recipe/";
+    for (let i = 6963110; i <= 6963120; i++) {
+      const recipeUrl = `${baseUrl}${i}`;
+        const recipeData = await getRecipeData(recipeUrl);
+        console.log(recipeData);
+      //await storeRecipeData(recipeData);
+    }
+}
+
+async function getRecipeData(url) {
+    try {
+      const response = await axios.get(url);
+      const $ = cheerio.load(response.data);
+        
+      const recipe_id = url.split("/").pop();
+      const recipe_name = $(".view2_summary h3").text();
+      let ingredients = $(".cont_ingre2 ul li a:first-child").text();
+
+      ingredients = ingredients
+        .replace(/\r?\n/g, "")
+        .replace(/\s+/g, " ")
+        .replace(/구매 가능/g, "")
+        .trim();
+
+      const rating = $(".count_recom").text().trim();
+  
+      return {
+        recipe_id,
+        recipe_name,
+        ingredients:ingredients.split(" "),
+        rating
+      };
+    } catch (error) {
+      console.log(error);
+    }
+  }
+  
+  async function storeRecipeData(recipeData) {
+    try {
+      const recipe = new Recipe(recipeData);
+      await recipe.save();
+      console.log(`Successfully stored recipe: ${recipeData.recipe_name}`);
+    } catch (error) {
+      console.log(error);
+    }
+  }
 

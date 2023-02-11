@@ -3,7 +3,6 @@ const { generateAccessToken, refreshVerify } = require("./jwtService");
 
 const silentRefreshService = async (req, res) => {
 
-    
     if (req.cookies.refreshToken) {
         const refreshToken = req.cookies.refreshToken;
         const userId = req.params.id;

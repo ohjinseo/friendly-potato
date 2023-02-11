@@ -159,7 +159,6 @@ const Home = () => {
     useEffect(() => {
         if (token) {
             dispatch(getRefrigeratorAction());
-            
         }
     },[token])
 

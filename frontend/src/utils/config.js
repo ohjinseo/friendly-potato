@@ -16,8 +16,8 @@ export const onSilentRefresh = async (dispatch) => {
         const res = await instance.post(`/auth/silent-refresh/${userId}`);
         onLoginSuccess(res, dispatch)
     } catch (err) {
-        dispatch(authSlice.actions.setAuthenticated(false));
-        dispatch(authSlice.actions.setToken(false));
+        
+        dispatch(logout());
         console.log(err);
     }
 }
@@ -25,7 +25,7 @@ export const onSilentRefresh = async (dispatch) => {
 
 export const onLoginSuccess = (response, dispatch) => {
     const { accessToken } = response.data;
-    
+
     instance.defaults.headers.common['Authorization'] = `Bearer ${accessToken}`;
     
     dispatch(authSlice.actions.setToken(true));

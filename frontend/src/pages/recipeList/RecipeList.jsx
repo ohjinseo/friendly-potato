@@ -7,6 +7,7 @@ import SearchIcon from '@mui/icons-material/Search';
 import {useDispatch, useSelector} from 'react-redux';
 import {getRefrigeratorAction} from '../../redux/slices/refrigeratorSlice';
 import SearchResult from './SearchResult';
+import { onSilentRefresh } from '../../utils/config';
 
 const RecipeListContainer = styled.div `
     display: flex;
@@ -107,9 +108,17 @@ const RecipeList = () => {
     const [myRefrigerator, setMyRefrigerator] = useState([]);
     const dispatch = useDispatch();
 
+    const token = useSelector(state => state?.authReducer?.token);
+    
     useEffect(() => {
-        dispatch(getRefrigeratorAction());
+        onSilentRefresh(dispatch);
     }, []);
+
+    useEffect(() => {
+        if (token) {
+            dispatch(getRefrigeratorAction());
+        }
+    }, [token]);
 
     const res = useSelector(
         state => state
@@ -120,7 +129,6 @@ const RecipeList = () => {
 
     useEffect(() => {
         if (res) {
-            console.log(res);
             setMyRefrigerator(res);
         }
     }, [res]);

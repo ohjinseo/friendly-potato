@@ -11,6 +11,7 @@ const ingredientRoute = require("./routes/ingredientRoute");
 const addIngredientListRoute = require("./routes/addIngredientListRoute");
 const refrigeratorRoute = require("./routes/refrigeratorRoute");
 const recipeRoute = require("./routes/recipeRoute");
+const visitRoute = require("./routes/visitRoute");
 
 
 dbConnect();
@@ -26,6 +27,7 @@ app.use("/api/ingredients", ingredientRoute);
 app.use("/api/addIngredients", addIngredientListRoute);
 app.use("/api/refrigerators", refrigeratorRoute);
 app.use("/api/recipes", recipeRoute);
+app.use("/api/visits", visitRoute);
 
 
 

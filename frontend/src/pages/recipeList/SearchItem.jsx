@@ -54,9 +54,10 @@ const View = styled.p`
 
 
 const SearchItem = ({ recipe }) => {
+  console.log();
   return (
     <Container>
-      <Link style={{ textDecoration: 'none', color:'inherit'}} to="/recipe">
+      <Link style={{ textDecoration: 'none', color: 'inherit' }} to={`/recipe/${recipe?.recipeId}`}>
         <Image src={recipe?.thumbImage} />
         <Title>{recipe?.title}</Title>
         <ProfileContainer>
