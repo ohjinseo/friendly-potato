@@ -12,6 +12,8 @@ const addIngredientListRoute = require("./routes/addIngredientListRoute");
 const refrigeratorRoute = require("./routes/refrigeratorRoute");
 const recipeRoute = require("./routes/recipeRoute");
 const visitRoute = require("./routes/visitRoute");
+const favoriteRoute = require("./routes/favoriteRoute");
+const recommendationRoute = require("./routes/recommendationRoute");
 
 
 dbConnect();
@@ -28,6 +30,8 @@ app.use("/api/addIngredients", addIngredientListRoute);
 app.use("/api/refrigerators", refrigeratorRoute);
 app.use("/api/recipes", recipeRoute);
 app.use("/api/visits", visitRoute);
+app.use("/api/favorites", favoriteRoute);
+app.use("/api/recommendation", recommendationRoute);
 
 
 
