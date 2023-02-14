@@ -95,7 +95,7 @@ const Recipe = () => {
                 const endTime = new Date();
                 const timeSpent = endTime - startTime;
 
-                recipeId && dispatch(registerVisitAction({ recipeId, timeSpent }));
+                recipeId && dispatch(registerVisitAction({ recipeId, timeSpent:(timeSpent/1000) }));
             }
         }
     }, [token, recipeId]);
