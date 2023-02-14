@@ -5,9 +5,9 @@ const router = require("express").Router();
 // 레시피 즐겨찾기
 router.post("/:id", verifyTokenAndAuthorization, async (req, res) => {
     try {
-        const existFavorite = Favorite.findOne({
+        const existFavorite = await Favorite.findOne({
+            userId: req.userId,
             recipeId: req.body.recipeId,
-            userId: req.userId
         })
 
         if (existFavorite) {

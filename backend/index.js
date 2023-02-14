@@ -33,8 +33,6 @@ app.use("/api/visits", visitRoute);
 app.use("/api/favorites", favoriteRoute);
 app.use("/api/recommendation", recommendationRoute);
 
-
-
 app.listen(5000, () => {
     console.log("server is running");
 })

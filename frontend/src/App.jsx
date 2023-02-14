@@ -15,6 +15,7 @@ const GlobalStyle = createGlobalStyle`
 
 const App = () => {
   const isAuthenticated = useSelector(state => state?.authReducer?.isAuthenticated);
+  const token = useSelector(state => state?.authReducer?.token);
   return (
     <>
       <GlobalStyle />

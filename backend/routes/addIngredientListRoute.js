@@ -4,7 +4,7 @@ const AddIngredientList = require("../models/AddIngredientList");
 const router = require("express").Router();
 
 // 목록 생성
-router.post("/:id", verifyTokenAndAuthorization, async (req, res) => {
+router.post("/", verifyToken, async (req, res) => {
     
     try {
         const checkAddIngredientList = await AddIngredientList.findOne({ userId: req.userId });
@@ -18,6 +18,7 @@ router.post("/:id", verifyTokenAndAuthorization, async (req, res) => {
         const savedIngredientList = await newAddIngredientList.save();
         res.status(200).json(savedIngredientList);
     } catch (err) {
+        console.log(err);
         res.status(500).json(err);
     }
 });

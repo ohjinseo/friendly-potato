@@ -11,9 +11,11 @@ export const registerUserAction = createAsyncThunk(
     "user/register",
     async (payload, { rejectWithValue, dispatch }) => {
         try {
-            const { accessToken } = await axios.post(`${baseURL}/auth/register`, payload);
-            dispatch(registerAddIngredientAction(accessToken));
-            dispatch(registerRefrigeratorAction(accessToken));
+            const {data} = await axios.post(`${baseURL}/auth/register`, payload);
+            console.log(data);
+            const { accessToken } = data;
+            dispatch(registerAddIngredientAction({accessToken}));
+            dispatch(registerRefrigeratorAction({accessToken}));
         } catch (error) {
             return rejectWithValue(error?.response?.data);
         }

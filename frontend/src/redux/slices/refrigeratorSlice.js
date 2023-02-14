@@ -7,6 +7,10 @@ import { instance } from "../../utils/config";
 export const registerRefrigeratorAction = createAsyncThunk(
     "refrigerator/register",
     async (payload, { rejectWithValue, dispatch }) => {
+        console.log(payload);
+        const { accessToken } = payload;
+        console.log(accessToken);
+        instance.defaults.headers.common['Authorization'] = `Bearer ${accessToken}`;
 
         try {
             const { data } = await instance.post(

@@ -6,6 +6,10 @@ export const registerAddIngredientAction = createAsyncThunk(
     "addIngredient/register",
     async (payload, { rejectWithValue, dispatch }) => {
 
+        const { accessToken } = payload;
+        console.log(accessToken);
+        instance.defaults.headers.common['Authorization'] = `Bearer ${accessToken}`;
+
         try {
             const { data } = await instance.post(
                 `/addIngredients`,
