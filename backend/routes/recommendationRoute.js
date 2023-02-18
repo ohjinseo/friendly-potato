@@ -3,19 +3,42 @@ const router = require("express").Router();
 const redisClient = require("../config/redis");
 const Visit = require("../models/Visit");
 const Favorite = require("../models/Favorite");
+const Like = require("../models/Like");
 
 const publisher = redisClient;
 const subscriber = redisClient;
 
-router.get("/:id", verifyTokenAndAuthorization, async (req, res) => {
+router.get("/:userId", async (req, res) => {
+    const recipeId = req.query.recipeId;
+
     try {
-        const visits = await Visit.find({});
+        const visits = await Visit.aggregate([
+            {
+              $group: {
+                _id: {
+                  userId: '$userId',
+                  recipeId: '$recipeId'
+                },
+                timeSpent: { $sum: '$timeSpent' }
+              }
+            },
+            {
+              $project: {
+                _id: 0,
+                userId: '$_id.userId',
+                recipeId: '$_id.recipeId',
+                timeSpent: 1
+              }
+            }
+          ]);
         const favorites = await Favorite.find({});
+        const likes = await Like.find({});
 
         const data = {
-            userId:req.userId,
+            recipeId,
             visits,
-            favorites
+            favorites,
+            likes
         };
 
         publisher.publish("recommendation_request", JSON.stringify(data));

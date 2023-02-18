@@ -3,11 +3,11 @@ const Visit = require("../models/Visit");
 const router = require("express").Router();
 
 // 유저 방문 시간 생성
-router.post("/:id", verifyTokenAndAuthorization, async (req, res) => {
+router.post("/:userId", async (req, res) => {
     try {
         const newVisit = new Visit({
             recipeId: req.body.recipeId,
-            userId: req.userId,
+            userId: req.params.userId,
             timeSpent: req.body.timeSpent
         });
 

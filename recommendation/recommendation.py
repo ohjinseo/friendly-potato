@@ -8,52 +8,67 @@ conn = redis.Redis(host='localhost', port=6379, db=0)
 pubsub = conn.pubsub()
 pubsub.subscribe('recommendation_request')
 
-def recommend_recipes(user_recipe_matrix, userId):
-    # cosine_similarity = 각 행 (userId) 간의 코사인 유사도 구함
-    cosine_similarities = cosine_similarity(user_recipe_matrix)
-    print(user_recipe_matrix)
-    print(cosine_similarities)
+def create_interactions_df(visits_df, favorites_df, likes_df):
 
-    user_index = user_recipe_matrix.index.get_loc(userId)
+    timeSpentWeight = 0.5
+    favoriteWeight = 0.3
+    likeWeight = 0.2
 
-    # user_id 사용자와 가장 유사한 사용자 5명
-    most_similar_users = cosine_similarities[user_index].argsort()[:-5:-1]
-    print(user_index)
-    print(cosine_similarities[user_index].argsort())
-    print()
+    # 각 레시피와 유저간의 상호작용을 0으로 초기화된 데이터프레임 생성
+    recipe_ids = pd.concat([visits_df['recipeId'], favorites_df['recipeId'], likes_df['recipeId']]).unique()
+    interactions_df = pd.DataFrame(0, index=recipe_ids, columns=visits_df['userId'].unique())
 
-    # 5명의 각 레시피 id에 대해 평균을 취함
-    avg_interaction = user_recipe_matrix.iloc[most_similar_users].mean()
-    print(user_recipe_matrix.loc[userId] == 0)
-    print(avg_interaction)
+    # 레시피 체류 시간에 비례해서 상호작용 값 계산
+    for idx, row in visits_df.iterrows():
+        interactions_df.loc[row['recipeId'], row['userId']] += row['timeSpent'] / visits_df['timeSpent'].max() * timeSpentWeight
+    
+    # 즐겨찾기에 대한 상호작용 값 2 추가
+    for idx, row in favorites_df.iterrows():
+        
+        interactions_df.loc[row['recipeId'], row['userId']] += 1 * favoriteWeight
 
-    # 현재 사용자가 아직 접하지 않은 레시피 뽑음
-    recommended_recipes = avg_interaction[user_recipe_matrix.loc[userId] == 0].index.tolist()
+        # 좋아요에 대한 상호작용 값 추가
+    for idx, row in likes_df.iterrows():
+        interactions_df.loc[row['recipeId'], row['userId']] += 1 * likeWeight
+
+    
+    return interactions_df
+
+def recommend_recipes(item_recipe_matrix, recipeId):
+    # cosine_similarity = 각 행 (recipeId) 간의 코사인 유사도 구함
+    cosine_similarities = cosine_similarity(item_recipe_matrix)
+    recipe_index = item_recipe_matrix.index.get_loc(recipeId)
+
+    # 현재 레시피와 가장 유사한 5개의 레시피를 찾음
+    most_similar_recipes = cosine_similarities[recipe_index].argsort()[:-6:-1]
+
+    # 가장 유사한 레시피들의 평균 상호작용 값에 따라 추천
+    recommended_recipes = item_recipe_matrix.iloc[most_similar_recipes].mean(axis=1).nlargest(5).index.tolist()
 
     return recommended_recipes
-
 
 for message in pubsub.listen():
     if message['type'] == 'message':
         requestData = json.loads(message["data"].decode("utf-8"))
-        userId = requestData['userId']
+        recipeId = requestData['recipeId']
         visits = requestData['visits']
         favorites = requestData['favorites']
+        likes = requestData['likes']
 
         visits_df = pd.DataFrame(visits)
-        scaler = MinMaxScaler()
-        visits_df['timeSpent'] = scaler.fit_transform(visits_df[['timeSpent']])
         favorites_df = pd.DataFrame(favorites)
+        likes_df = pd.DataFrame(likes)
 
-        # user_id를 행, recipe_id를 열로 피봇 테이블 생성 (nan 값은 0으로 채움)
-        user_recipe_matrix = pd.pivot_table(visits_df, values='timeSpent', index='userId', columns='recipeId', fill_value=0)
+        # 각 레시피와 유저간의 상호작용을 나타내는 데이터프레임 생성
+        interactions_df = create_interactions_df(visits_df, favorites_df, likes_df)
 
-        # 즐겨 찾기 = 2로 설정
-        for index, row in favorites_df.iterrows():
-            user_recipe_matrix.at[row['userId'], row['recipeId']] = 2
-        
-        # 값을 0~1 사이의 범위로 정규화
-        user_recipe_matrix = user_recipe_matrix.apply(lambda x: (x - x.min()) / (x.max() - x.min()), axis=1)
-        recommendations = recommend_recipes(user_recipe_matrix, userId)
+        # 상호작용 값 정규화
+        scaler = MinMaxScaler()
+        interactions_df_scaled = interactions_df.apply(lambda x: x/x.max(), axis=1)
+
+        # 아이템 기반 협업 필터링을 위한 데이터프레임 생성
+        item_recipe_matrix = interactions_df_scaled.T
+
+        recommendations = recommend_recipes(item_recipe_matrix, recipeId)
 
         conn.publish('recommendation_response', json.dumps(recommendations))

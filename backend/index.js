@@ -13,6 +13,7 @@ const refrigeratorRoute = require("./routes/refrigeratorRoute");
 const recipeRoute = require("./routes/recipeRoute");
 const visitRoute = require("./routes/visitRoute");
 const favoriteRoute = require("./routes/favoriteRoute");
+const likeRoute = require("./routes/likeRoute");
 const recommendationRoute = require("./routes/recommendationRoute");
 
 
@@ -31,6 +32,7 @@ app.use("/api/refrigerators", refrigeratorRoute);
 app.use("/api/recipes", recipeRoute);
 app.use("/api/visits", visitRoute);
 app.use("/api/favorites", favoriteRoute);
+app.use("/api/likes", likeRoute);
 app.use("/api/recommendation", recommendationRoute);
 
 app.listen(5000, () => {

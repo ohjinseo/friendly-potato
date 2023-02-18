@@ -3,10 +3,10 @@ const Favorite = require("../models/Favorite");
 const router = require("express").Router();
 
 // 레시피 즐겨찾기
-router.post("/:id", verifyTokenAndAuthorization, async (req, res) => {
+router.post("/:userId", async (req, res) => {
     try {
         const existFavorite = await Favorite.findOne({
-            userId: req.userId,
+            userId: req.params.userId,
             recipeId: req.body.recipeId,
         })
 
@@ -16,7 +16,7 @@ router.post("/:id", verifyTokenAndAuthorization, async (req, res) => {
 
         const newFavorite = new Favorite({
             recipeId: req.body.recipeId,
-            userId: req.userId,
+            userId: req.params.userId,
         });
 
         const savedFavorite = await newFavorite.save();
