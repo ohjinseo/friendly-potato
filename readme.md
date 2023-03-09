@@ -56,7 +56,7 @@
 <br />
 <br />
 
-## UI/UX
+## UI/UX (미완성)
 
 <details>
 <summary>1. 나의 냉장고</summary>
