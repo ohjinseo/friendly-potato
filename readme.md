@@ -58,9 +58,14 @@
 
 ## UI/UX
 
-### 1. 나의 냉장고
+<details>
+<summary>1. 나의 냉장고</summary>
+<div markdown="1">
 
 ![image](https://user-images.githubusercontent.com/62508156/223991568-0ea6b6dd-b9e2-4458-b427-323dc09321af.png)
+
+</div>
+</details>
 
 - 식재료 검색
 - 보관장소 별로 조회
@@ -69,14 +74,39 @@
 
 <br/>
 
-### 2. 식재료 추가
+<details>
+<summary>2. 식재료 추가</summary>
+<div markdown="1">
 
 ![image](https://user-images.githubusercontent.com/62508156/223991812-8ee55c84-7226-434b-9b71-1afd38b1b66d.png)
+
+</div>
+</details>
 
 - 식재료 검색
 - 카테고리 별로 식재료 조회
 - 추가 목록 수정, 삭제
 
+<details>
+<summary>모달창</summary>
+<div markdown="1">
+
 ![image](https://user-images.githubusercontent.com/62508156/223994542-00ab9890-08e5-4bf4-bd55-f9dd26e9c661.png)
 
+</div>
+</details>
+
 - 식재료 추가 (보관장소, 수량, 등록일, 유통기한)
+
+<br />
+
+<details>
+<summary>3. 레시피 조회</summary>
+<div markdown="1">
+
+![image](https://user-images.githubusercontent.com/62508156/223997266-33a58726-a100-4eb8-99e4-427a7a201dab.png)
+
+</div>
+</details>
+
+- 가진 식재료들로 만들 수 있는 레시피 조회
