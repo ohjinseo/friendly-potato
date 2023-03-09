@@ -60,7 +60,7 @@
 
 ### 1. 나의 냉장고
 
-![image](https://user-images.githubusercontent.com/62508156/223989534-4c815a06-9158-47bd-afd5-2775fa60a584.png)
+![image](https://user-images.githubusercontent.com/62508156/223991568-0ea6b6dd-b9e2-4458-b427-323dc09321af.png)
 
 - 식재료 검색
 - 보관장소 별로 조회
@@ -71,4 +71,4 @@
 
 ### 2. 식재료 추가
 
-![image](https://user-images.githubusercontent.com/62508156/223990541-c7b39224-b9ed-44a3-9567-be963e8e48e5.png)
+![image](https://user-images.githubusercontent.com/62508156/223991812-8ee55c84-7226-434b-9b71-1afd38b1b66d.png)
