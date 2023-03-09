@@ -8,7 +8,7 @@ const Like = require("../models/Like");
 const publisher = redisClient;
 const subscriber = redisClient;
 
-router.get("/:userId", async (req, res) => {
+router.get("/:id", async (req, res) => {
     const recipeId = req.query.recipeId;
 
     try {
