@@ -19,13 +19,11 @@
 
 ![image](https://user-images.githubusercontent.com/62508156/223969038-983df1de-9198-477b-9686-cb0854f3dc37.png)
 
-1. node.js 서버로 /recommendations/:id?recipeId=?로 get요청이 들어오면, 사용자들이 페이지에 체류한 시간, 즐겨찾기, 좋아요를 누른 데이터들과 추천 대상인 레시피 id를 Redis 채널 (recommendation_request)에 publish 한다.
-   <br />
-
-2. python 스크립트에 Redis 리스너 (recommendation_request 구독)에서 받은 데이터로 pandas 데이터 프레임을 생성하고 데이터 전처리와 함께 레시피 id 간의 코사인 유사도를 계산하고 가장 유사한 레시피 id 5개를 선택해서 Redis 채널 (recommendation_response) publish한다.
-   <br />
-
-3. node.js 서버에서 Redis 리스너 (recommendation_response 구독)에서 데이터를 받고, 5개의 유사한 레시피 id를 json으로 클라이언트에 응답한다.
+> 1. node.js 서버로 /recommendations/:id?recipeId=?로 get요청이 들어오면, 사용자들이 페이지에 체류한 시간, 즐겨찾기, 좋아요를 누른 데이터들과 추천 대상인 레시피 id를 Redis 채널 (recommendation_request)에 publish 한다.
+>    <br /> <br />
+> 2. python 스크립트에 Redis 리스너 (recommendation_request 구독)에서 받은 데이터로 pandas 데이터 프레임을 생성하고 데이터 전처리와 함께 레시피 id 간의 코사인 유사도를 계산하고 가장 유사한 레시피 id 5개를 선택해서 Redis 채널 (recommendation_response) publish한다.
+>    <br /> <br />
+> 3. node.js 서버에서 Redis 리스너 (recommendation_response 구독)에서 데이터를 받고, 5개의 유사한 레시피 id를 json으로 클라이언트에 응답한다.
 
 <br />
 
@@ -74,3 +72,11 @@
 ### 2. 식재료 추가
 
 ![image](https://user-images.githubusercontent.com/62508156/223991812-8ee55c84-7226-434b-9b71-1afd38b1b66d.png)
+
+- 식재료 검색
+- 카테고리 별로 식재료 조회
+- 추가 목록 수정, 삭제
+
+![image](https://user-images.githubusercontent.com/62508156/223994542-00ab9890-08e5-4bf4-bd55-f9dd26e9c661.png)
+
+- 식재료 추가 (보관장소, 수량, 등록일, 유통기한)
