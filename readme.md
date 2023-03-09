@@ -7,8 +7,6 @@
 
 ## 프로젝트 주요 기능
 
----
-
 1. 냉장고 관리 및 식재료 소비기한, 보관장소 관리
 2. 냉장고 속 재료로 레시피 조회
 3. 레시피 좋아요, 즐겨찾기
@@ -18,8 +16,6 @@
 <br />
 
 ## IBCF 추천 시스템 workflow
-
----
 
 ![image](https://user-images.githubusercontent.com/62508156/223969038-983df1de-9198-477b-9686-cb0854f3dc37.png)
 
@@ -41,8 +37,6 @@
 <br />
 
 ## Authentication Flow
-
----
 
 ![image](https://user-images.githubusercontent.com/62508156/223957353-515803eb-d531-4807-9bd3-cba3118fcd4a.png)
 <br />
