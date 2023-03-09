@@ -52,3 +52,23 @@
 - 따라서 로그인을 연장시키기 위해서는 refreshToken을 이용해 서버에서 새로운 accessToken을 발급받고 이를 이용해 로그인을 유지한다.
 
 - 이를 자동으로 처리하기 위해서는 silentRefresh()를 이용하여 accessToken이 만료되기 1분 전에 새로운 accessToken을 발급받도록 하거나, 컴포넌트가 마운트될 때마다 silentRefresh()를 호출하여 로그인을 유지한다.
+
+<br />
+<br />
+
+## UI/UX
+
+### 1. 나의 냉장고
+
+![image](https://user-images.githubusercontent.com/62508156/223989534-4c815a06-9158-47bd-afd5-2775fa60a584.png)
+
+- 식재료 검색
+- 보관장소 별로 조회
+- 소비기한 지날 시, 색상 변경
+- 식재료 수정, 삭제
+
+<br/>
+
+### 2. 식재료 추가
+
+![image](https://user-images.githubusercontent.com/62508156/223990541-c7b39224-b9ed-44a3-9567-be963e8e48e5.png)
